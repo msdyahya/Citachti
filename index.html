@@ -1,853 +1,806 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>كناشتي | الموسوعة التعليمية للباكالوريا - جميع الدروس والتمارين</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>كناشتي | الموسوعة التعليمية للباكالوريا</title>
+    <meta name="description" content="كناشتي - منصة تعليمية متكاملة لطلاب الباكالوريا تضم دروس الرياضيات والفيزياء وعلوم الحياة والفلسفة والإنجليزية">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Cairo', 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
-            line-height: 1.5;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1117 50%, #0a0a0f 100%);
+            font-family: 'Cairo', sans-serif;
+            color: #f0f3f8;
             overflow-x: hidden;
         }
-
-        .animated-bg {
+        
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100% !important;
+            position: relative;
+        }
+        
+        .bg-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            overflow: hidden;
             z-index: 0;
-            overflow: hidden;
         }
-
-        .gradient-sphere {
+        .bg-animation span {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+            width: 20px;
+            height: 20px;
+            background: rgba(59, 130, 246, 0.05);
             border-radius: 50%;
-            animation: floatSphere 25s ease-in-out infinite;
+            animation: float 15s infinite linear;
         }
-
-        .gradient-sphere:nth-child(1) { top: -200px; left: -200px; animation-delay: 0s; }
-        .gradient-sphere:nth-child(2) { bottom: -300px; right: -200px; animation-delay: -10s; width: 600px; height: 600px; background: radial-gradient(circle, rgba(0,180,255,0.08) 0%, transparent 70%); }
-        .gradient-sphere:nth-child(3) { top: 40%; left: 50%; transform: translate(-50%, -50%); width: 700px; height: 700px; background: radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%); animation: pulseSlow 18s ease-in-out infinite; }
-
-        @keyframes floatSphere {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(60px, -60px) rotate(120deg); }
-            66% { transform: translate(-40px, 50px) rotate(240deg); }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
-
-        @keyframes pulseSlow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-            50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.7; }
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero {
-            background: linear-gradient(135deg, rgba(8,8,12,0.95) 0%, rgba(13,25,40,0.95) 100%);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(59,130,246,0.25);
-            padding: 2rem 0 1.8rem;
-            position: relative;
-            overflow: hidden;
-            animation: slideDown 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-60px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo {
+        
+        .app-wrapper {
             display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #3b82f6, #60a5fa, #2563eb);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glow 3s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            overflow-x: hidden !important;
+            max-width: 100%;
         }
-
-        @keyframes glow {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(59,130,246,0.3)); }
-            50% { filter: drop-shadow(0 0 15px rgba(59,130,246,0.5)); }
-        }
-
-        .hero-subtitle {
-            color: #9ca3af;
-            margin-top: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .stats {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            background: rgba(59, 130, 246, 0.08);
-            border: 1px solid rgba(59, 130, 246, 0.25);
-            padding: 0.4rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 500;
+        
+        .sidebar {
+            width: 280px;
+            background: rgba(5, 8, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
             transition: all 0.3s ease;
-            animation: fadeInUp 0.5s ease-out backwards;
-        }
-
-        .stat:nth-child(1) { animation-delay: 0.05s; }
-        .stat:nth-child(2) { animation-delay: 0.1s; }
-        .stat:nth-child(3) { animation-delay: 0.15s; }
-        .stat:nth-child(4) { animation-delay: 0.2s; }
-        .stat:nth-child(5) { animation-delay: 0.25s; }
-
-        .stat i { margin-left: 6px; color: #3b82f6; }
-        .stat:hover { transform: translateY(-3px); background: rgba(59, 130, 246, 0.15); border-color: #3b82f6; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .search-section {
-            margin: -1rem auto 1.8rem;
-            position: relative;
             z-index: 10;
-            max-width: 620px;
-            animation: scaleIn 0.5s ease-out 0.25s backwards;
         }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.92); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .search-box {
-            background: rgba(20, 20, 35, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 60px;
-            padding: 0.2rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1.5px solid rgba(59,130,246,0.3);
-            transition: all 0.35s ease;
-        }
-
-        .search-box:focus-within {
-            border-color: #3b82f6;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .search-box i { padding-right: 1rem; font-size: 1rem; color: #60a5fa; }
-        .search-box input {
-            flex: 1;
-            padding: 0.85rem 0;
+        
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: linear-gradient(105deg, #2563eb, #1e40af);
             border: none;
-            background: transparent;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
             color: white;
-            font-family: 'Cairo', sans-serif;
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .search-box input::placeholder { color: #6b7280; }
-        .search-box button {
-            background: linear-gradient(135deg, #1e3a5f, #0f172a);
-            border: none;
-            padding: 0.65rem 1.6rem;
-            border-radius: 50px;
-            color: #3b82f6;
-            font-weight: 600;
-            font-family: 'Cairo', sans-serif;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #3b82f6;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .search-box button:hover { background: #1e3a5f; color: white; transform: scale(0.98); }
-
-        .filters {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 2rem;
-            animation: fadeInUp 0.5s ease-out 0.3s backwards;
+        
+        .sidebar-header {
+            text-align: center;
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            margin-bottom: 1.5rem;
         }
-
-        .filter-btn {
-            background: rgba(17, 24, 39, 0.8);
-            backdrop-filter: blur(4px);
-            border: 1px solid #1e3a5f;
-            padding: 0.55rem 1.3rem;
-            border-radius: 40px;
-            font-weight: 600;
+        .sidebar-header h3 { color: #3b82f6; font-size: 1.2rem; }
+        .sidebar-header p { font-size: 0.7rem; opacity: 0.7; margin-top: 5px; }
+        
+        .sidebar-section { margin-bottom: 1.5rem; }
+        .sidebar-section-title {
+            padding: 0.5rem 1.5rem;
+            color: #3b82f6;
             font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            color: #9ca3af;
-            font-family: 'Cairo', sans-serif;
-        }
-        .filter-btn i { margin-left: 5px; }
-        .filter-btn.active {
-            background: linear-gradient(135deg, #1e3a5f, #0f172a);
-            border-color: #3b82f6;
-            color: #3b82f6;
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
-        }
-        .filter-btn:hover:not(.active) { border-color: #3b82f6; color: #60a5fa; transform: translateY(-2px); }
-
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 1.8rem;
-            margin: 1.5rem 0 2rem;
-        }
-
-        .lesson-card {
-            background: linear-gradient(145deg, rgba(15,15,26,0.95) 0%, rgba(8,8,14,0.98) 100%);
-            backdrop-filter: blur(8px);
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(30, 58, 95, 0.4);
-            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            opacity: 0;
-            transform: translateY(25px);
-        }
-        .lesson-card.show { opacity: 1; transform: translateY(0); }
-        .lesson-card:hover { transform: translateY(-8px); border-color: #3b82f6; box-shadow: 0 25px 40px -18px rgba(59, 130, 246, 0.35); }
-
-        .card-image {
-            height: 130px;
-            background: linear-gradient(135deg, #0d1117, #0a0f15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .floating-icon { font-size: 3.5rem; animation: smoothFloat 4s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(59,130,246,0.3)); }
-        @keyframes smoothFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
-
-        .card-content { padding: 1.1rem 1.3rem 1.3rem; }
-        .lesson-subject {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(59, 130, 246, 0.12);
-            color: #3b82f6;
-            padding: 0.2rem 0.9rem;
-            border-radius: 30px;
-            font-size: 0.7rem;
             font-weight: 700;
-            margin-bottom: 0.7rem;
         }
-        .lesson-title { font-size: 1.15rem; font-weight: 800; color: white; margin-bottom: 0.5rem; line-height: 1.35; }
-        .lesson-description { font-size: 0.8rem; color: #a1a1aa; margin-bottom: 1rem; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-
-        .episodes-section { margin-top: 0.8rem; }
-        .episodes-title {
-            font-size: 0.7rem;
-            color: #60a5fa;
-            margin-bottom: 0.5rem;
+        .sidebar-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-        .episodes-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 0.8rem;
-        }
-        .episode-btn {
-            background: rgba(30, 58, 95, 0.4);
-            border: 1px solid #2d4a6e;
-            padding: 0.35rem 0.9rem;
-            border-radius: 25px;
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: #94a3b8;
+            gap: 12px;
+            padding: 10px 1.5rem;
+            margin: 4px 8px;
+            border-radius: 12px;
+            color: #cbd5e1;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'Cairo', sans-serif;
+            white-space: nowrap;
+        }
+        .sidebar-item i { width: 24px; color: #3b82f6; }
+        .sidebar-item:hover { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
+        .sidebar-item.active { background: linear-gradient(105deg, #1e3a5f, #0f172a); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+        .sidebar-item.active i { color: #3b82f6; }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem 2rem;
+            overflow-x: hidden !important;
+            max-width: 100%;
+        }
+        
+        .hero-section { text-align: center; margin-bottom: 2rem; overflow-x: hidden; }
+        .hero-section h1 { 
+            font-size: 2.5rem; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #60a5fa, #3b82f6, #1e40af); 
+            background-clip: text; 
+            -webkit-background-clip: text; 
+            color: transparent; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .hero-section h1 i { color: #3b82f6; font-size: 2rem; background: none; }
+        .glow-text { font-size: 0.85rem; opacity: 0.8; margin-top: 5px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+        .badge-msd { background: rgba(59, 130, 246, 0.15); padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; }
+        
+        .trending-badge {
+            background: linear-gradient(105deg, #2563eb, #1e40af);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
-        .episode-btn i { font-size: 0.65rem; }
-        .episode-btn.facebook { border-color: #1877f2; color: #1877f2; }
-        .episode-btn.facebook:hover { background: #1877f2; color: white; }
-        .episode-btn.instagram { border-color: #e4405f; color: #e4405f; }
-        .episode-btn.instagram:hover { background: #e4405f; color: white; }
-
-        .buttons-group {
+        
+        .source-bar {
             display: flex;
-            gap: 10px;
-            margin-top: 0.5rem;
-        }
-        .watch-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 0.6rem 0.8rem;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            cursor: pointer;
-            font-family: 'Cairo', sans-serif;
+            gap: 12px;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
-        .watch-btn.facebook { background: #1877f2; color: white; }
-        .watch-btn.facebook:hover { background: #0f6ad4; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(24, 119, 242, 0.35); }
-        .watch-btn.instagram { background: transparent; color: #e4405f; border: 1px solid #e4405f; }
-        .watch-btn.instagram:hover { background: #e4405f; color: white; transform: translateY(-2px); box-shadow: 0 6px 14px rgba(228, 64, 95, 0.3); }
-
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            background: rgba(15, 15, 26, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 40px;
-            border: 1px solid #1e3a5f;
-            margin: 1.8rem 0;
-        }
-
-        .footer {
-            background: linear-gradient(135deg, #050508, #0a0a10);
-            padding: 1.8rem;
-            text-align: center;
-            border-top: 1px solid #1e3a5f;
-            margin-top: 2.5rem;
-            font-size: 0.7rem;
-            color: #7e8b9c;
-        }
-
-        .go-top {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: linear-gradient(135deg, #1e3a5f, #0f172a);
+        .source-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 8px 20px;
+            border-radius: 50px;
             color: #3b82f6;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+        }
+        .source-btn.active {
+            background: linear-gradient(105deg, #2563eb, #1e40af);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .search-section { transition: all 0.3s ease; overflow-x: hidden; }
+        .search-section.hidden { display: none; }
+        
+        .search-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 70px;
+            padding: 5px 5px 5px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            flex-wrap: wrap;
+        }
+        .search-card input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 14px 5px;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            color: white;
+            outline: none;
+            min-width: 150px;
+        }
+        .search-card input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        .search-card button {
+            background: linear-gradient(105deg, #2563eb, #1e40af);
+            border: none;
+            padding: 10px 28px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
             cursor: pointer;
-            border: 1px solid #3b82f6;
+        }
+        
+        .back-to-search {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: #3b82f6;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+        }
+        .back-to-search:hover { background: rgba(59, 130, 246, 0.3); }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 1.2rem;
             transition: all 0.3s;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            cursor: pointer;
+            position: relative;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .result-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+        .result-title { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .result-title h3 { font-size: 1.1rem; font-weight: 700; color: #60a5fa; word-break: break-word; }
+        .result-title i { color: #3b82f6; }
+        .result-desc { color: #9ca3af; font-size: 0.8rem; line-height: 1.5; margin-bottom: 8px; word-break: break-word; }
+        .result-meta { margin-top: 10px; display: flex; gap: 12px; font-size: 0.65rem; flex-wrap: wrap; align-items: center; }
+        
+        .article-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 5, 10, 0.97);
+            backdrop-filter: blur(25px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
             opacity: 0;
             visibility: hidden;
-            z-index: 100;
+            transition: all 0.4s ease;
+            overflow: hidden;
         }
-        .go-top.show { opacity: 1; visibility: visible; animation: popIn 0.4s ease-out; }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.3); } 60% { opacity: 1; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
-        .go-top:hover { background: #3b82f6; color: white; transform: translateY(-3px); }
-
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 25px;
-            background: #1e293b;
-            backdrop-filter: blur(10px);
+        .article-modal.open { opacity: 1; visibility: visible; }
+        
+        .modal-content {
+            background: rgba(10, 15, 25, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            width: 100%;
+            max-width: 850px;
+            max-height: 85vh;
+            overflow-y: auto;
+            overflow-x: hidden !important;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-track { background: #0f172a; border-radius: 10px; }
+        .modal-content::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(5, 10, 20, 0.9);
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 5;
+        }
+        .close-modal {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .article-body {
+            padding: 1.5rem;
+            color: #cbd5e1;
+            line-height: 1.8;
+            direction: rtl;
+            font-size: 0.95rem;
+            overflow-x: hidden !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+        .article-body p { margin-bottom: 1rem; text-align: justify; word-wrap: break-word; overflow-wrap: break-word; }
+        .article-body h1 { font-size: 1.4rem; color: #60a5fa; margin-bottom: 1rem; word-break: break-word; }
+        .article-body h2, .article-body h3, .article-body h4 { word-break: break-word; margin-top: 1rem; margin-bottom: 0.5rem; color: #60a5fa; }
+        
+        .article-info {
+            display: flex;
+            gap: 15px;
+            margin: 0.5rem 0 1rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            flex-wrap: wrap;
+        }
+        .article-info span { display: inline-flex; align-items: center; gap: 6px; }
+        
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.12);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+            flex-wrap: wrap;
+        }
+        
+        .show-more-btn {
+            background: linear-gradient(105deg, #2563eb, #1e40af);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.85rem;
             color: white;
-            padding: 8px 18px;
-            border-radius: 50px;
+            cursor: pointer;
+            margin: 0.5rem 0;
+        }
+        
+        .full-content {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            overflow-x: hidden !important;
+            word-wrap: break-word;
+        }
+        .full-content.visible { display: block; }
+        
+        .state-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border-radius: 40px;
+            padding: 2rem;
+            text-align: center;
+            word-wrap: break-word;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        .video-btn {
+            background: linear-gradient(105deg, #2563eb, #1e40af);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
             font-size: 0.75rem;
-            z-index: 1000;
-            opacity: 0;
-            transform: translateX(-60px);
-            transition: all 0.3s;
-            border-right: 3px solid #3b82f6;
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
         }
-        .toast.show { opacity: 1; transform: translateX(0); }
-
+        .video-btn:hover { transform: translateY(-2px); }
+        
         @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
-            .lessons-grid { grid-template-columns: 1fr; gap: 1.3rem; }
-            .filter-btn { padding: 0.4rem 1rem; font-size: 0.7rem; }
-            .episode-btn { padding: 0.25rem 0.7rem; font-size: 0.65rem; }
+            .sidebar {
+                position: fixed;
+                right: -280px;
+                width: 260px;
+                z-index: 200;
+                transition: right 0.3s ease;
+                height: 100vh;
+            }
+            .sidebar.open { right: 0; }
+            .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
+            .main-content { padding: 1rem; }
+            .hero-section h1 { font-size: 1.8rem; }
+            .search-card { border-radius: 30px; }
+            .search-card button { padding: 8px 18px; }
+            .modal-content { max-width: 95%; }
+            .article-body { padding: 1rem; }
+            .results-grid { grid-template-columns: 1fr; }
         }
+        
+        footer { text-align: center; margin-top: 2rem; padding-top: 1rem; font-size: 0.7rem; opacity: 0.6; border-top: 1px solid rgba(59,130,246,0.1); }
+        .badge { background: rgba(59,130,246,0.15); padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        
+        .lesson-category { margin-top: 1.5rem; margin-bottom: 1rem; }
+        .lesson-category h3 { color: #3b82f6; font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
     </style>
 </head>
 <body>
+<div class="bg-animation" id="bgAnimation"></div>
 
-<div class="animated-bg">
-    <div class="gradient-sphere"></div>
-    <div class="gradient-sphere"></div>
-    <div class="gradient-sphere"></div>
-</div>
+<button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
 
-<div class="hero">
-    <div class="container">
-        <div class="logo">
-            <i class="fas fa-graduation-cap"></i>
-            <span>كناشتي</span>
-            <i class="fas fa-book-open"></i>
+<div class="app-wrapper">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-graduation-cap"></i> كناشتي</h3>
+            <p>موسوعة الباكالوريا · Kenachti</p>
         </div>
-        <div class="hero-subtitle">🎓 أكبر منصة تجمع دروس الباكالوريا - فيديوهات من فيسبوك وإنستغرام | شروحات حصرية لجميع المواد</div>
-        <div class="stats">
-            <div class="stat"><i class="fas fa-chalkboard-user"></i> 200+ درس</div>
-            <div class="stat"><i class="fas fa-chalkboard"></i> 20+ أستاذ</div>
-            <div class="stat"><i class="fas fa-layer-group"></i> 500+ فيديو</div>
-            <div class="stat"><i class="fas fa-trophy"></i> شرح احترافي</div>
-            <div class="stat"><i class="fas fa-sync-alt"></i> تحديث مستمر</div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><i class="fas fa-folder"></i> المواد الدراسية</div>
+            <div class="sidebar-item active" data-subject="all">
+                <i class="fas fa-th-large"></i> <span>الجميع</span>
+            </div>
+            <div class="sidebar-item" data-subject="math">
+                <i class="fas fa-calculator"></i> <span>الرياضيات</span>
+            </div>
+            <div class="sidebar-item" data-subject="physique">
+                <i class="fas fa-atom"></i> <span>الفيزياء والكيمياء</span>
+            </div>
+            <div class="sidebar-item" data-subject="svt">
+                <i class="fas fa-dna"></i> <span>علوم الحياة</span>
+            </div>
+            <div class="sidebar-item" data-subject="geologie">
+                <i class="fas fa-mountain"></i> <span>الجيولوجيا</span>
+            </div>
+            <div class="sidebar-item" data-subject="philo">
+                <i class="fas fa-brain"></i> <span>الفلسفة</span>
+            </div>
+            <div class="sidebar-item" data-subject="english">
+                <i class="fas fa-language"></i> <span>الإنجليزية</span>
+            </div>
         </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><i class="fas fa-cog"></i> معلومات</div>
+            <div class="sidebar-item" data-page="about">
+                <i class="fas fa-info-circle"></i> <span>عن الموقع</span>
+            </div>
+            <div class="sidebar-item" data-page="contact">
+                <i class="fas fa-envelope"></i> <span>اتصل بنا</span>
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><i class="fas fa-chart-line"></i> إحصائيات</div>
+            <div class="sidebar-item" style="cursor: default;">
+                <i class="fas fa-book"></i> <span><span id="lessonsCount">0</span> درس</span>
+            </div>
+            <div class="sidebar-item" style="cursor: default;">
+                <i class="fas fa-chalkboard-user"></i> <span>15+ أستاذ</span>
+            </div>
+            <div class="sidebar-item" style="cursor: default;">
+                <i class="fas fa-video"></i> <span>100+ فيديو</span>
+            </div>
+        </div>
+        <div class="sidebar-section">
+            <div class="sidebar-section-title"><i class="fas fa-bell"></i> تنبيه</div>
+            <div class="sidebar-item" style="cursor: default; font-size: 0.7rem;">
+                <i class="fas fa-info-circle"></i> <span>بعض البثوث على Instagram غير دائمة</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="hero-section">
+            <h1><i class="fas fa-graduation-cap"></i> كناشتي</h1>
+            <div class="glow-text">
+                <span class="badge-msd"><i class="fas fa-check-circle"></i> دروس مصورة · شروحات مبسطة</span>
+                <span class="badge-msd"><i class="fas fa-bolt"></i> للمراجعة النهائية</span>
+                <span class="badge-msd"><i class="fas fa-fire"></i> الباكالوريا بكل سهولة</span>
+            </div>
+        </div>
+        
+        <div class="search-section" id="searchSection">
+            <div class="source-bar">
+                <button class="source-btn active" data-source="facebook"><i class="fab fa-facebook-f"></i> فيسبوك</button>
+                <button class="source-btn" data-source="instagram"><i class="fab fa-instagram"></i> إنستغرام</button>
+            </div>
+            <div class="search-card">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="ابحث عن درس... مثال: الدالة الأسية، قوانين نيوتن" autocomplete="off">
+                <button id="searchBtn"><i class="fas fa-arrow-left"></i> بحث</button>
+            </div>
+        </div>
+        
+        <div id="resultsArea">
+            <div class="state-container">
+                <i class="fas fa-crown" style="font-size: 2rem; color: #3b82f6;"></i>
+                <h3 style="margin-top: 0.5rem;">مرحباً بك في كناشتي</h3>
+                <p>✓ أكبر منصة تجمع دروس الباكالوريا</p>
+                <p style="font-size: 0.8rem;">✓ شروحات من أساتذة متميزين</p>
+                <p style="font-size: 0.7rem; margin-top: 0.5rem;"><i class="fas fa-fire"></i> اختر مادة من القائمة الجانبية أو ابحث في الأعلى</p>
+            </div>
+        </div>
+        
+        <footer>
+            <i class="fas fa-shield-alt"></i> كناشتي · جميع الدروس من إعداد أساتذة متميزين · Prof Fati | Adrdour | Prof Faress | Tahiri | Sara English | Prof Chargui
+        </footer>
     </div>
 </div>
 
-<div class="container">
-    <div class="search-section">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="ابحث عن درس... (مثال: الدالة الأسية، Newton، SVT، المتتاليات)">
-            <button id="searchBtn">بحث <i class="fas fa-arrow-left"></i></button>
+<div id="articleModal" class="article-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><span id="modalTitle">الدرس</span></h2>
+            <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="modalBody" class="article-body">
+            <div class="spinner"></div>
+            <p style="text-align: center;">جاري التحميل...</p>
         </div>
     </div>
-
-    <div class="filters" id="filtersContainer">
-        <button class="filter-btn active" data-filter="all"><i class="fas fa-th-large"></i> الكل</button>
-        <button class="filter-btn" data-filter="رياضيات"><i class="fas fa-calculator"></i> رياضيات</button>
-        <button class="filter-btn" data-filter="فيزياء"><i class="fas fa-atom"></i> فيزياء وكيمياء</button>
-        <button class="filter-btn" data-filter="علوم"><i class="fas fa-dna"></i> علوم الحياة</button>
-        <button class="filter-btn" data-filter="فلسفة"><i class="fas fa-brain"></i> فلسفة</button>
-        <button class="filter-btn" data-filter="انجليزية"><i class="fas fa-language"></i> إنجليزية</button>
-    </div>
-
-    <div id="lessonsGrid" class="lessons-grid"></div>
 </div>
-
-<div class="footer">
-    <p><i class="fas fa-star" style="color: #f59e0b;"></i> جميع الفيديوهات من إعداد أساتذة متميزين: Prof Fati | Adrdour | Prof Faress | Tahiri | Sara English | Prof Chargui | Prof Mouslim | Prof Noureddine | Prof Laksabi</p>
-    <p style="margin-top: 6px;"><i class="fas fa-info-circle"></i> ملاحظة: بعض البثوث المباشرة على Instagram قد تكون غير دائمة - ننصح بمشاهدة روابط Facebook أولاً</p>
-    <p style="margin-top: 6px;">© 2025 كناشتي - <i class="fas fa-graduation-cap"></i> مراجعة الباكالوريا بكل احترافية</p>
-</div>
-
-<button class="go-top" id="goTopBtn"><i class="fas fa-arrow-up"></i></button>
-<div id="toast" class="toast"><i class="fas fa-check-circle"></i> تم نسخ الرابط</div>
 
 <script>
-    // جميع البيانات الكاملة كما أرسلها المستخدم
-    const lessonsData = [
-        // ==================== الرياضيات ====================
-        { id: 1, subject: "رياضيات", title: "المعادلات التفاضلية", description: "شرح سهل ورائع ومبسط لدرس المعادلات التفاضلية مع أمثلة تطبيقية - في المستوى", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1476337393857691/", label: "الجزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1628974374663763/", label: "الجزء 2" }
-        ]},
-        { id: 2, subject: "رياضيات", title: "حساب التكامل (Calcul intégral) - سلسلة Adilo Math", description: "شرح كامل ومفصل لحساب التكامل مع تمارين تطبيقية وطرق سهلة للحفظ", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/2029085788024304/", label: "الجزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/34249756198004159/", label: "الجزء 2" },
-            { type: "facebook", url: "https://www.facebook.com/reel/954014403751206/", label: "الجزء 3" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1631558081315632/", label: "الجزء 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/2652668541785005/", label: "الجزء 5" }
-        ]},
-        { id: 3, subject: "رياضيات", title: "حساب التكامل - سلسلة Adrdour", description: "سلسلة كاملة لحساب التكامل مع تمارين محلولة - شرح رائع", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/918182767287800/", label: "الجزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1669372797385085/", label: "الجزء 2" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1649024349791443/", label: "الجزء 3" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1620765185528379/", label: "الجزء 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1709106013391633/", label: "الجزء 5" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1434950221665910/", label: "الجزء 6" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1623994355550136/", label: "الجزء 7" },
-            { type: "facebook", url: "https://www.facebook.com/reel/2002736237300132/", label: "الجزء 8" }
-        ]},
-        { id: 4, subject: "رياضيات", title: "الدالة الأسية (Fonction exponentielle)", description: "شرح رائع ومبسط للدالة الأسية مع دراسة الدوال وطرق الحل - في المستوى", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1211471321113960/", label: "الجزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1608805623655815/", label: "الجزء 2" },
-            { type: "facebook", url: "https://www.facebook.com/reel/860357206827879/", label: "الجزء 3" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1634532957897582/", label: "الجزء 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1454508372749255/", label: "الجزء 5" }
-        ]},
-        { id: 5, subject: "رياضيات", title: "الأعداد العقدية (Nombres Complexes)", description: "سلسلة كاملة لدرس الأعداد العقدية - شرح ناصع ومبسط مع تمارين تطبيقية 10 حلقات", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1930067827572718/", label: "الجزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/889822093600423/", label: "الجزء 2" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1436717151418045/", label: "الجزء 3" },
-            { type: "facebook", url: "https://www.facebook.com/reel/884710177272441/", label: "الجزء 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1244329500941297/", label: "الجزء 5" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1105323378294611/", label: "الجزء 6" },
-            { type: "facebook", url: "https://www.facebook.com/reel/908578641856331/", label: "الجزء 7" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1762601657753864/", label: "الجزء 8" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1866430140658712/", label: "الجزء 9" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1617367439283022/", label: "الجزء 10" }
-        ]},
-        { id: 6, subject: "رياضيات", title: "الدالة اللوغاريتمية (Fonction logarithmique)", description: "سلسلة شاملة للدالة اللوغاريتمية - شرح الأستاذة فاطي - أكثر من 13 فيديو تعليمي", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1AhKTdHXTU/", label: "الجزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1G1Te9fkBd/", label: "الجزء 2" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16iLyMY9HB/", label: "الجزء 3" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/14VPzTb1Vgy/", label: "الجزء 4" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16WxiWpZYj/", label: "الجزء 5" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1DEEhdTbAH/", label: "الجزء 6" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1G5n4pHXRC/", label: "الجزء 7" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1AdzLFA3Uh/", label: "الجزء 8" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1MxErFnWHK/", label: "الجزء 9" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1BkmNBPy5v/", label: "الجزء 10" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/14PU2hzGqCt/", label: "الجزء 11" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/17pkW1wzY7/", label: "الجزء 12" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16wMeTFNqg/", label: "الجزء 13" }
-        ]},
-        { id: 7, subject: "رياضيات", title: "المتتاليات العددية (Les suites numériques)", description: "الدرس الكامل للمتتاليات العددية - 12 حصة تعليمية مع تمارين وامتحانات وطنية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1A9PuQ4W7K/", label: "الحصة 1" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16BMSV22Uf/", label: "الحصة 2" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16thy2Rura/", label: "الحصة 3" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1BppLMzQrD/", label: "الحصة 4" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1A3aHX7npz/", label: "الحصة 5" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Bg4jr73jE/", label: "الحصة 6" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16m4vcPkPV/", label: "الحصة 7" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1CdXyZP7Uf/", label: "الحصة 8" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1C6qALuDxa/", label: "الحصة 9" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1DDuLXjPBR/", label: "الحصة 10" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1DPRMrsVBG/", label: "الحصة 11" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/17qKzzNHc5/", label: "الحصة 12" }
-        ]},
-        { id: 8, subject: "رياضيات", title: "الاشتقاق ودراسة الدوال (Dérivation)", description: "شرح مبسط لدرس الاشتقاق ودراسة الدوال مع تمارين تطبيقية - Prof Fati - 9 حصص", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Bnf9mYabF/", label: "الحصة 1" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1EN4bSQP6G/", label: "الحصة 2" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/19UdnfRuyE/", label: "الحصة 3" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/16KZ9EU8ET/", label: "الحصة 4" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/198kbvBeiX/", label: "الحصة 5" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1FHEHrysH9/", label: "الحصة 6" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Ghiuvw7FU/", label: "الحصة 7" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/17Jvbk5ayt/", label: "الحصة 8" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Eu83BcC7W/", label: "الحصة 9" }
-        ]},
-        { id: 9, subject: "رياضيات", title: "النهايات (Les limites)", description: "سلسلة كاملة لدرس النهايات - شرح الأستاذة فاطي - 11 حصة تعليمية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1CVR6zJZqS/", label: "الحصة 1" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Dp3AZMwaq/", label: "الحصة 2" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/14YgK7p6aLr/", label: "الحصة 3" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/18EvG6gCy8/", label: "الحصة 4" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1FdnRbMsDW/", label: "الحصة 5" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1DcthDrbWn/", label: "الحصة 6" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1FeShdpWE2/", label: "الحصة 7" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/178A8fX3jz/", label: "الحصة 8" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1CFZ3cu7ud/", label: "الحصة 9" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1BSdPWYM9J/", label: "الحصة 10" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/14U8MK9Mj58/", label: "الحصة 11" }
-        ]},
-        { id: 10, subject: "رياضيات", title: "الاحتمالات والهندسة الفضائية", description: "مراجعة شاملة للاحتمالات والهندسة الفضائية مع تمارين تطبيقية وامتحانات وطنية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1623191248934998/", label: "احتمالات - مراجعة" },
-            { type: "facebook", url: "https://www.facebook.com/reel/2150664265685002/", label: "الاحتمالات - درس كامل" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1396623198903432/", label: "الهندسة الفضائية" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1851669018856161/", label: "الهندسة الفضائية - جميع الأسئلة" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DXABv0ejIeS/", label: "الاحتمالات - شرح" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DXKkL81DJL9/", label: "الاحتمالات - Moaad Tahiri" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DXSY1JniKIM/", label: "معامل الترتيب - Adrdour 1" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DXSaqIgCMl3/", label: "معامل الترتيب - Adrdour 2" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DW4zr1WDDPy/", label: "الهندسة الفضائية - كامل" }
-        ]},
-        { id: 11, subject: "رياضيات", title: "الدالة الأسية - سلسلة كاملة (24 أبريل)", description: "سلسلة كاملة لدرس الدالة الأسية - 9 حصص تعليمية متكاملة", episodes: [
-            { type: "facebook", url: "https://web.facebook.com/share/v/1AcsGGfDw2/", label: "الساعة 1" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/1CCxfzCakV/", label: "الساعة 2" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/16ycjD433R/", label: "الساعة 3" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/188AVeVv38/", label: "الساعة 4" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/1DKFKw4qtE/", label: "الساعة 5" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/1B6i9jnB3i/", label: "الساعة 6" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/1AMP4J4Nsm/", label: "الساعة 7" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/1HqQdze5LH/", label: "الساعة 8" },
-            { type: "facebook", url: "https://web.facebook.com/share/v/1CkRa8nstR/", label: "الساعة 9" }
-        ]},
+// جميع الدروس - كل درس كبطاقة مستقلة
+const lessons = [
+    // الرياضيات
+    { id: 1, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "المعادلات التفاضلية - الجزء 1", desc: "شرح سهل ورائع لدرس المعادلات التفاضلية مع أمثلة تطبيقية", url: "https://www.facebook.com/reel/1476337393857691/", type: "facebook", trending: true },
+    { id: 2, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "المعادلات التفاضلية - الجزء 2", desc: "تكملة شرح المعادلات التفاضلية - تمارين تطبيقية", url: "https://www.facebook.com/reel/1628974374663763/", type: "facebook", trending: false },
+    { id: 3, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "حساب التكامل - الجزء 1", desc: "شرح كامل ومفصل لحساب التكامل مع تمارين", url: "https://www.facebook.com/reel/2029085788024304/", type: "facebook", trending: true },
+    { id: 4, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "حساب التكامل - الجزء 2", desc: "تكملة شرح حساب التكامل - طرق سهلة للحفظ", url: "https://www.facebook.com/reel/34249756198004159/", type: "facebook", trending: false },
+    { id: 5, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "الدالة الأسية - الجزء 1", desc: "شرح رائع للدالة الأسية مع دراسة الدوال", url: "https://www.facebook.com/reel/1211471321113960/", type: "facebook", trending: true },
+    { id: 6, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "الدالة الأسية - الجزء 2", desc: "تكملة شرح الدالة الأسية - طرق الحل", url: "https://www.facebook.com/reel/1608805623655815/", type: "facebook", trending: false },
+    { id: 7, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "الأعداد العقدية - الجزء 1", desc: "شرح ناصع للأعداد العقدية - العمليات الأساسية", url: "https://www.facebook.com/reel/1930067827572718/", type: "facebook", trending: false },
+    { id: 8, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "المتتاليات العددية - الحصة 1", desc: "الدرس الكامل للمتتاليات العددية - المفاهيم الأساسية", url: "https://www.facebook.com/share/v/1A9PuQ4W7K/", type: "facebook", trending: false },
+    { id: 9, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "النهايات - الحصة 1", desc: "درس النهايات - المفاهيم الأساسية والقواعد", url: "https://www.facebook.com/share/v/1CVR6zJZqS/", type: "facebook", trending: false },
+    
+    // الفيزياء
+    { id: 10, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "قوانين نيوتن - شرح القوانين", desc: "شرح كامل لقوانين نيوتن مع أمثلة تطبيقية", url: "https://www.facebook.com/share/v/1KQXGNNmn4/", type: "facebook", trending: true },
+    { id: 11, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "السقوط العمودي - شرح", desc: "شرح درس السقوط العمودي في الميكانيك", url: "https://www.facebook.com/reel/2818003581884804/", type: "facebook", trending: false },
+    { id: 12, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "حركة الكواكب والأقمار", desc: "شرح مبسط لحركة الكواكب والأقمار الصناعية", url: "https://www.facebook.com/reel/1582442422847823/", type: "facebook", trending: false },
+    { id: 13, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "ثنائي القطب RL - درس كامل", desc: "شرح ثنائي القطب RL مع تمارين وطنية", url: "https://www.facebook.com/reel/1836519480517774/", type: "facebook", trending: false },
+    { id: 14, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "قوانين نيوتن - شرح Instagram", desc: "شرح قوانين نيوتن - Prof Laksabi", url: "https://www.instagram.com/reel/DVXHRYyAsyD/", type: "instagram", trending: false },
+    
+    // علوم الحياة
+    { id: 15, subject: "svt", subjectName: "علوم الحياة", icon: "fa-dna", title: "ATP - شرح كامل", desc: "شرح تركيب ATP ودوره في الخلية", url: "https://www.facebook.com/share/v/1YzwbBy12Z/", type: "facebook", trending: true },
+    { id: 16, subject: "svt", subjectName: "علوم الحياة", icon: "fa-dna", title: "المقلة العضلية (Muscle)", desc: "شرح تركيب المقلة العضلية وآلية الانقباض", url: "https://www.facebook.com/share/v/18FUhhRWa9/", type: "facebook", trending: false },
+    { id: 17, subject: "svt", subjectName: "علوم الحياة", icon: "fa-dna", title: "القوانين الإحصائية للوراثة", desc: "شرح قوانين مندل - Monohybridisme", url: "https://www.facebook.com/share/v/1Hxp5QEAFU/", type: "facebook", trending: true },
+    
+    // الجيولوجيا - كل جزء منفصل
+    { id: 18, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "الاندساس (Subduction) - الجزء 1", desc: "شرح ظاهرة الاندساس في الجيولوجيا - الآليات والنتائج", url: "https://www.facebook.com/reel/1241067014866539/", type: "facebook", trending: false },
+    { id: 19, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "التصادم (Collision) - الجزء 2", desc: "شرح ظاهرة التصادم بين الصفائح التكتونية", url: "https://www.facebook.com/reel/1241067014866539/", type: "facebook", trending: false },
+    { id: 20, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "التحول (Métamorphisme) - الجزء 3", desc: "شرح ظاهرة التحول في الصخور", url: "https://www.facebook.com/reel/1241067014866539/", type: "facebook", trending: false },
+    { id: 21, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "ملخص الجيولوجيا كاملاً", desc: "ملخص شامل لجميع دروس الجيولوجيا", url: "https://www.facebook.com/share/p/1C6VtgQ8QU/", type: "facebook", trending: true },
+    { id: 22, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "الجيولوجيا - شرح كامل Instagram", desc: "شرح جميع دروس الجيولوجيا مع Prof Faress", url: "https://www.instagram.com/tv/CsFa3WxovcU/", type: "instagram", trending: false },
+    
+    // الفلسفة
+    { id: 23, subject: "philo", subjectName: "الفلسفة", icon: "fa-brain", title: "مجزوءة السياسة - مفهوم الدولة", desc: "شرح مفهوم الدولة ومشروعيتها وغاياتها", url: "https://www.facebook.com/reel/1427129562444643/", type: "facebook", trending: true },
+    { id: 24, subject: "philo", subjectName: "الفلسفة", icon: "fa-brain", title: "منهجية النص الفلسفي", desc: "طريقة كتابة المقدمة والتحليل والمناقشة", url: "https://www.facebook.com/share/v/1BcEJXTNh4/", type: "facebook", trending: false },
+    { id: 25, subject: "philo", subjectName: "الفلسفة", icon: "fa-brain", title: "مجزوءة السياسة - شرح Instagram", desc: "شرح كامل لمجزوءة السياسة", url: "https://www.instagram.com/reel/DV_C2SFjUY-/", type: "instagram", trending: false },
+    
+    // الإنجليزية
+    { id: 26, subject: "english", subjectName: "الإنجليزية", icon: "fa-language", title: "قواعد اللغة الإنجليزية", desc: "جميع قواعد اللغة الإنجليزية في شرح واحد", url: "https://www.facebook.com/share/v/1DZTf1mn6c/", type: "facebook", trending: true },
+    { id: 27, subject: "english", subjectName: "الإنجليزية", icon: "fa-language", title: "المبني للمجهول - Passive Voice", desc: "شرح قاعدة المبني للمجهول في الإنجليزية", url: "https://www.facebook.com/reel/1967350620822152/", type: "facebook", trending: false },
+    { id: 28, subject: "english", subjectName: "الإنجليزية", icon: "fa-language", title: "الوحدة الأولى - Gifts of Youth", desc: "مفردات وتمارين الوحدة الأولى", url: "https://www.facebook.com/reel/1784062965618065/", type: "facebook", trending: false }
+];
 
-        // ==================== الفيزياء والكيمياء ====================
-        { id: 12, subject: "فيزياء", title: "قوانين نيوتن (Lois de Newton)", description: "شرح كامل لقوانين نيوتن مع تمارين وامتحانات وطنية محلولة - مهم جداً", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1KQXGNNmn4/", label: "شرح القوانين" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1553453316147862/", label: "تمارين 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1267197594868972/", label: "تمارين 2" },
-            { type: "facebook", url: "https://www.facebook.com/reel/2233045970560337/", label: "تمارين 3" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1280504937365044/", label: "تمارين 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/735569009522704/", label: "National PC 2015" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1714767373007415/", label: "National PC 2014" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1567057394589578/", label: "National PC 2022" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DVXHRYyAsyD/", label: "شرح - Prof Laksabi" }
-        ]},
-        { id: 13, subject: "فيزياء", title: "السقوط العمودي (Chute verticale)", description: "تمارين وأسئلة مهمة في ميكانيك السقوط العمودي - شرح أستاذ مشهور", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/2818003581884804/", label: "شرح عام" },
-            { type: "facebook", url: "https://www.facebook.com/reel/849090054455107/", label: "تمرين 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/899822163042848/", label: "تمرين 2" },
-            { type: "facebook", url: "https://www.facebook.com/reel/933388382817175/", label: "تمرين 3" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1145130424300168/", label: "تمرين 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1359651156189116/", label: "تمرين 5" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1136093835276881/", label: "تمرين مهم" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DWfCDYpjMF8/", label: "شرح - Instagram" }
-        ]},
-        { id: 14, subject: "فيزياء", title: "حركة الكواكب والأقمار الصناعية", description: "شرح مبسط لحركة الكواكب والأقمار الصناعية مع تمارين تطبيقية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1582442422847823/", label: "شرح الدرس" },
-            { type: "facebook", url: "https://www.facebook.com/reel/26192599273682027/", label: "تمرين 1" },
-            { type: "facebook", url: "https://www.facebook.com/reel/3346311218864436/", label: "سلسلة تمارين" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DWxAkNIjB4Z/", label: "شرح كامل" }
-        ]},
-        { id: 15, subject: "فيزياء", title: "ثنائي القطب RL و RC و RLC", description: "درس كامل وشامل لثنائي القطب RL و RC و RLC مع تمارين وامتحانات وطنية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1836519480517774/", label: "RL - درس كامل" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1CndGNjso6/", label: "RL - شرح" },
-            { type: "facebook", url: "https://www.facebook.com/100068006845464/posts/1226622069614676/", label: "RLC - درس" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DUwhFkDCup_/", label: "RC و RL - مراجعة" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DUwK-O5Dedb/", label: "الكهرباء - مراجعة" }
-        ]},
-        { id: 16, subject: "فيزياء", title: "البيلات والتحليل الكهربائي (Piles & Électrolyse)", description: "شرح مفصل للتحولات التلقائية في البيلات والتحليل الكهربائي", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1294033695927463/", label: "درس البيلات" },
-            { type: "facebook", url: "https://www.facebook.com/reel/865918393173546/", label: "تمارين وطنية SM 2012" },
-            { type: "facebook", url: "https://www.facebook.com/reel/4501342130102447/", label: "تمارين 2BAC" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1474113021054535/", label: "التحليل الكهربائي" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DW965rZjCFd/", label: "شرح - Instagram" }
-        ]},
-        { id: 17, subject: "فيزياء", title: "النواة - الكتلة والطاقة والنشاط الإشعاعي", description: "شرح النشاط الإشعاعي والتفكك الإشعاعي بطريقة مبسطة - ASTUCES مهمة", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/100092202122102/videos/1196604465705056/", label: "Noyau - جزء 1" },
-            { type: "facebook", url: "https://www.facebook.com/100092202122102/videos/2227599044397489/", label: "Noyau - جزء 2" },
-            { type: "facebook", url: "https://www.facebook.com/100092202122102/videos/1730237681004982/", label: "الانحلال - ASTUCES 1" },
-            { type: "facebook", url: "https://www.facebook.com/100092202122102/videos/2329241990847720/", label: "الانحلال - جزء 2" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DRIoxzwDKer/", label: "شرح كامل" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DRskpBRAOwh/", label: "شرح إضافي" }
-        ]},
-        { id: 18, subject: "فيزياء", title: "الأحماض والقواعد + التحولات الكيميائية", description: "شرح الأستاذ Laksabi - Acide Base و Suivi temporel و التحولات الكيميائية", episodes: [
-            { type: "instagram", url: "https://www.instagram.com/reel/DToSthYjBn6/", label: "Acide Base - شرح" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DQSgz1UjHzs/", label: "Suivi temporel" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DR-olatjDCD/", label: "اتزان كيميائي" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DUJntaajUep/", label: "كيمياء - Prof Laksabi" }
-        ]},
-        { id: 19, subject: "فيزياء", title: "حركة الجسيمات المشحونة + الموجات + التعديل", description: "Mouvement d'une particule chargée, Ondes lumineuses, Modulation d'amplitude", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1839575617221903/", label: "Mouvement particule" },
-            { type: "facebook", url: "https://www.facebook.com/Najma6Learning/videos/998162911297607/", label: "ملخص - Prof Noureddine" },
-            { type: "facebook", url: "https://www.facebook.com/groups/1991909314447954/permalink/3694609230844612/", label: "الموجات الضوئية" },
-            { type: "facebook", url: "https://www.facebook.com/reel/863971450035045/", label: "Modulation amplitude" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DUEPWwfjQEM/", label: "الموجات - Prof Laksabi" }
-        ]},
-        { id: 20, subject: "فيزياء", title: "ميكانيك - تمارين وامتحانات وطنية (Prof Chargui)", description: "تصحيح امتحانات وطنية في الميكانيك والكهرباء", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/100068006845464/posts/1285187817091434/", label: "ميكانيك 2017-2025" },
-            { type: "facebook", url: "https://www.facebook.com/100068006845464/posts/1281300190813530/", label: "ميكانيك 2008-2016" },
-            { type: "facebook", url: "https://www.facebook.com/100068006845464/posts/1266370062306543/", label: "كهرباء 2017-2025" }
-        ]},
+// تحديث عدد الدروس
+document.getElementById("lessonsCount").innerText = lessons.length;
 
-        // ==================== علوم الحياة والأرض ====================
-        { id: 21, subject: "علوم", title: "ATP والمقلة العضلية (Muscle)", description: "شرح كامل لتركيب ATP وتركيب المقلة العضلية مع تمارين وامتحانات وطنية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1YzwbBy12Z/", label: "ATP" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/18FUhhRWa9/", label: "Muscle" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1372575557909514/", label: "المعلومة الوراثية" },
-            { type: "facebook", url: "https://www.facebook.com/groups/1991909314447954/permalink/3694669224171946/", label: "ATP + Muscle - National 2024" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DQSSqk9Diqp/", label: "مراجعة - Prof Faress" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DBFRWOkNqSy/", label: "ATP كامل" },
-            { type: "instagram", url: "https://www.instagram.com/reel/CyHlXFTIISl/", label: "ATP شرح" }
-        ]},
-        { id: 22, subject: "علوم", title: "القوانين الإحصائية للوراثة (Lois statistiques)", description: "شرح رائع لقوانين مندل في الوراثة - Monohybridisme و Dihybridisme", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Hxp5QEAFU/", label: "كورس كامل 3 ساعات" },
-            { type: "facebook", url: "https://www.facebook.com/reel/905002435679222/", label: "شرح مبسط" },
-            { type: "facebook", url: "https://www.facebook.com/reel/961843659723831/", label: "قوانين مندل" },
-            { type: "facebook", url: "https://www.facebook.com/100083809936732/videos/1384335718874409/", label: "شرح - Prof Faress" },
-            { type: "facebook", url: "https://www.facebook.com/reel/2340607949684579/", label: "National 2024 SVT" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DWcicsKDYwK/", label: "مراجعة - Prof Faress" },
-            { type: "instagram", url: "https://www.instagram.com/reel/C7aZHl0i4mZ/", label: "تمارين" }
-        ]},
-        { id: 23, subject: "علوم", title: "الجيولوجيا (Géologie)", description: "درس كامل في الجيولوجيا - Subduction و Obduction و Collision و Métamorphisme", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1241067014866539/", label: "شرح كامل" },
-            { type: "facebook", url: "https://www.facebook.com/share/p/1C6VtgQ8QU/", label: "ملخص" },
-            { type: "instagram", url: "https://www.instagram.com/tv/CsFa3WxovcU/", label: "شرح - Prof Faress" }
-        ]},
-        { id: 24, subject: "علوم", title: "المناعة والتلوث (Immunologie et Pollution)", description: "شرح دروس المناعة والتلوث بطريقة مبسطة", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1b1THK95Rq/", label: "Immunologie 1" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/17Lm5awA96/", label: "Immunologie 2" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1AnaCWkLLd/", label: "Immunologie 3" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/18ReLJvuM6/", label: "Immunologie 4" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1703749497656778/", label: "التلوث" }
-        ]},
-        { id: 25, subject: "علوم", title: "مراجعة شاملة SVT (Prof Faress)", description: "مراجعة جميع دروس علوم الحياة والأرض في ساعتين - شرح Prof Faress", episodes: [
-            { type: "instagram", url: "https://www.instagram.com/reel/DKSimcesG7r/", label: "جميع الدروس في ساعتين" },
-            { type: "instagram", url: "https://www.instagram.com/reel/C8Ft2M_MRNy/", label: "مراجعة عامة" },
-            { type: "instagram", url: "https://www.instagram.com/reel/C712jG0sTdt/", label: "Examen Blanc 2024" },
-            { type: "instagram", url: "https://www.instagram.com/reel/C7aQCC4NGKt/", label: "Génétique كامل" }
-        ]},
-        { id: 26, subject: "علوم", title: "تعابير المعلومة الوراثية - تمارين", description: "تمارين تطبيقية على التعبير عن المعلومة الوراثية وانتقالها", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/proantech19/videos/742040714914709/", label: "تمرين 1" },
-            { type: "facebook", url: "https://www.facebook.com/proantech19/videos/674528098531919/", label: "تمرين 2" }
-        ]},
+let currentSubject = "all";
+let currentPlatform = "all";
+let searchTerm = "";
 
-        // ==================== الفلسفة ====================
-        { id: 27, subject: "فلسفة", title: "مجزوءة السياسة (La politique)", description: "شرح مبسط لمجزوءة السياسة: مفهوم الدولة، مشروعية الدولة، أشكال العنف، الحق والعدالة", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1427129562444643/", label: "الدولة - مشروعيتها" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1557008938736111/", label: "أشكال العنف" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DV_C2SFjUY-/", label: "شرح المجزوءة" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DWvw0ZWjMQI/", label: "مراجعة كاملة" }
-        ]},
-        { id: 28, subject: "فلسفة", title: "منهجية النص الفلسفي", description: "طريقة كتابة المقدمة والتحليل والمناقشة والتركيب - تطبيق على مجزوءة السياسة", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1BcEJXTNh4/", label: "المقدمة" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1Bw6DwmaEu/", label: "التحليل" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1FGLHXjytM/", label: "المناقشة" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/18DMCFDUE4/", label: "التركيب" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1587192069003334/", label: "تطبيق على القولة" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DWtFpMrCsKY/", label: "مطلب التحليل" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DXNeU-zDO-0/", label: "منهجيات الفلسفة" }
-        ]},
-        { id: 29, subject: "فلسفة", title: "مجزوءة الوضع البشري", description: "الشخص والهوية - الشخص بين الضرورة والحرية - وجود الغير ومعرفته - التاريخ", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/61565174074274/videos/1084075730519223/", label: "الشخص والهوية" },
-            { type: "facebook", url: "https://www.facebook.com/61565174074274/videos/936620975374337/", label: "الشخص قيمة" },
-            { type: "facebook", url: "https://www.facebook.com/61565174074274/videos/1452418226311437/", label: "الشخص ضرورة وحرية" },
-            { type: "facebook", url: "https://www.facebook.com/61565174074274/videos/753418844502246/", label: "وجود الغير" },
-            { type: "facebook", url: "https://www.facebook.com/61565174074274/videos/659825670525585/", label: "معرفة الغير" },
-            { type: "facebook", url: "https://www.facebook.com/61565174074274/videos/1367848608693226/", label: "العلاقة مع الغير" }
-        ]},
-        { id: 30, subject: "فلسفة", title: "مجزوءة المعرفة", description: "النظرية والتجربة - العقلانية العلمية - معايير علمية النظريات - الحقيقة", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/945081288069267/", label: "النظرية والتجربة" },
-            { type: "facebook", url: "https://www.facebook.com/reel/3633931363412603/", label: "معايير النظريات" },
-            { type: "facebook", url: "https://www.facebook.com/100088834611236/videos/977570774926609/", label: "الحقيقة" }
-        ]},
+// خلفية ديناميكية
+for (let i = 0; i < 50; i++) {
+    let span = document.createElement('span');
+    let size = Math.random() * 30 + 5;
+    span.style.width = size + 'px';
+    span.style.height = size + 'px';
+    span.style.left = Math.random() * 100 + '%';
+    span.style.animationDuration = Math.random() * 20 + 10 + 's';
+    span.style.animationDelay = Math.random() * 10 + 's';
+    document.getElementById('bgAnimation').appendChild(span);
+}
 
-        // ==================== اللغة الإنجليزية ====================
-        { id: 31, subject: "انجليزية", title: "قواعد اللغة الإنجليزية (All Grammar)", description: "جميع قواعد اللغة الإنجليزية في شرح واحد - ملخص شامل للباكالوريا", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/share/v/1DZTf1mn6c/", label: "All Grammar" },
-            { type: "facebook", url: "https://www.facebook.com/reel/4353197238237512/", label: "90 دقيقة كل الدروس" }
-        ]},
-        { id: 32, subject: "انجليزية", title: "المبني للمجهول - Reported Speech - Conditionals", description: "شرح قواعد المبني للمجهول والكلام المنقول والجمل الشرطية", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1967350620822152/", label: "Passive Voice" },
-            { type: "facebook", url: "https://www.facebook.com/reel/1475867910908748/", label: "Reported Speech" },
-            { type: "facebook", url: "https://www.facebook.com/share/v/1HbB5trXsa/", label: "Conditional III" },
-            { type: "facebook", url: "https://www.facebook.com/100089104713127/videos/7706412986132634/", label: "Future Perfect" },
-            { type: "facebook", url: "https://www.facebook.com/100089104713127/videos/792730406173121/", label: "Gerund & Infinitive" }
-        ]},
-        { id: 33, subject: "انجليزية", title: "الوحدة الأولى - Gifts of Youth", description: "مفردات وتمارين الوحدة الأولى - مواهب الشباب - شرح مبسط", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/reel/1784062965618065/", label: "تمارين الوحدة" },
-            { type: "facebook", url: "https://www.facebook.com/reel/791608259880060/", label: "Writing - Causes & Effects" },
-            { type: "facebook", url: "https://www.facebook.com/100089104713127/videos/996953554923605/", label: "Expressing Cause & Effect" },
-            { type: "facebook", url: "https://www.facebook.com/100089104713127/videos/762901492686384/", label: "Expressing Opinion" },
-            { type: "instagram", url: "https://www.instagram.com/reel/DPUnoK4DKlY/", label: "مراجعة - Sara English" }
-        ]},
-        { id: 34, subject: "انجليزية", title: "التواصل - الشكوى والاعتذار", description: "دروس التواصل باللغة الإنجليزية: الشكوى، الاعتذار، التعريف", episodes: [
-            { type: "facebook", url: "https://www.facebook.com/100089104713127/videos/822939399287693/", label: "Defining & Complaining" },
-            { type: "facebook", url: "https://www.facebook.com/100089104713127/videos/1372459043957441/", label: "Responding to news" }
-        ]}
-    ];
+// منصة المشاهدة
+document.querySelectorAll('.source-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentPlatform = btn.getAttribute('data-source');
+        renderResults();
+    });
+});
 
-    let currentFilter = "all";
-    let currentSearchTerm = "";
+// مواد القائمة الجانبية
+document.querySelectorAll('.sidebar-item[data-subject]').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.sidebar-item[data-subject]').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        currentSubject = item.getAttribute('data-subject');
+        searchTerm = "";
+        document.getElementById('searchInput').value = "";
+        renderResults();
+    });
+});
 
-    function showToast() { const toast = document.getElementById("toast"); toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2000); }
-
-    function copyToClipboard(text) { navigator.clipboard.writeText(text); showToast(); }
-
-    function getIconEmoji(subject) {
-        const icons = { "رياضيات": "📐", "فيزياء": "⚛️", "علوم": "🧬", "فلسفة": "📜", "انجليزية": "🇬🇧" };
-        return icons[subject] || "📚";
-    }
-
-    function getIconClass(subject) {
-        const classes = { "رياضيات": "fa-calculator", "فيزياء": "fa-atom", "علوم": "fa-dna", "فلسفة": "fa-brain", "انجليزية": "fa-language" };
-        return classes[subject] || "fa-book";
-    }
-
-    function renderLessons() {
-        const grid = document.getElementById("lessonsGrid");
-        let filtered = lessonsData.filter(lesson => {
-            if (currentFilter !== "all" && lesson.subject !== currentFilter) return false;
-            if (currentSearchTerm) {
-                const term = currentSearchTerm.toLowerCase();
-                return lesson.title.toLowerCase().includes(term) || lesson.description.toLowerCase().includes(term);
-            }
-            return true;
-        });
-
-        if (filtered.length === 0) {
-            grid.innerHTML = `<div class="no-results"><i class="fas fa-search" style="font-size:2.5rem; color:#3b82f6;"></i><h3 style="margin-top:0.8rem;">لا توجد نتائج</h3><p>لم نجد دروساً تطابق "${currentSearchTerm || 'البحث'}"</p></div>`;
-            return;
+function renderResults() {
+    let filtered = lessons.filter(lesson => {
+        if (currentSubject !== "all" && lesson.subject !== currentSubject) return false;
+        if (currentPlatform !== "all" && lesson.type !== currentPlatform) return false;
+        if (searchTerm) {
+            return lesson.title.includes(searchTerm) || lesson.desc.includes(searchTerm);
         }
+        return true;
+    });
+    
+    const resultsArea = document.getElementById('resultsArea');
+    if (filtered.length === 0) {
+        resultsArea.innerHTML = `<div class="state-container">
+            <i class="fas fa-search" style="font-size: 2rem; color: #3b82f6;"></i>
+            <h3 style="margin-top: 0.5rem;">لا توجد نتائج</h3>
+            <p>لم نجد دروساً تطابق بحثك</p>
+        </div>`;
+        return;
+    }
+    
+    let html = `<div style="margin-bottom: 0.8rem;"><i class="fas fa-chart-line"></i> ${filtered.length} درس</div><div class="results-grid">`;
+    filtered.forEach(lesson => {
+        html += `
+            <div class="result-card" onclick='openLesson("${lesson.title.replace(/'/g, "\\'")}", "${lesson.desc.replace(/'/g, "\\'")}", "${lesson.url}", "${lesson.type}", "${lesson.subjectName}")'>
+                <div class="result-title">
+                    <i class="fas ${lesson.icon}"></i>
+                    <h3>${lesson.title}</h3>
+                    ${lesson.trending ? '<span class="trending-badge"><i class="fas fa-fire"></i> رائج</span>' : ''}
+                </div>
+                <div class="result-desc"><i class="fas fa-quote-right"></i> ${lesson.desc}...</div>
+                <div class="result-meta">
+                    <span><i class="fab ${lesson.type === 'facebook' ? 'fa-facebook-f' : 'fa-instagram'}"></i> ${lesson.type === 'facebook' ? 'فيسبوك' : 'إنستغرام'}</span>
+                    <span><i class="fas fa-graduation-cap"></i> ${lesson.subjectName}</span>
+                    <span class="badge"><i class="fas fa-check-circle"></i> موثق</span>
+                </div>
+            </div>
+        `;
+    });
+    html += `</div>`;
+    resultsArea.innerHTML = html;
+}
 
-        grid.innerHTML = filtered.map((lesson, idx) => {
-            const emoji = getIconEmoji(lesson.subject);
-            const iconClass = getIconClass(lesson.subject);
-            const mainFacebook = lesson.episodes.find(e => e.type === "facebook");
-            const mainInstagram = lesson.episodes.find(e => e.type === "instagram");
-            const otherEpisodes = lesson.episodes.filter(e => e !== mainFacebook && e !== mainInstagram);
-            
-            return `
-                <div class="lesson-card" style="animation-delay: ${idx * 0.02}s">
-                    <div class="card-image">
-                        <div class="floating-icon">${emoji}</div>
-                    </div>
-                    <div class="card-content">
-                        <div class="lesson-subject"><i class="fas ${iconClass}"></i> ${lesson.subject === "رياضيات" ? "رياضيات" : lesson.subject === "فيزياء" ? "فيزياء وكيمياء" : lesson.subject === "علوم" ? "علوم الحياة" : lesson.subject === "فلسفة" ? "فلسفة" : "إنجليزية"}</div>
-                        <div class="lesson-title">${lesson.title}</div>
-                        <div class="lesson-description">${lesson.description}</div>
-                        
-                        ${lesson.episodes.length > 0 ? `
-                            <div class="episodes-section">
-                                <div class="episodes-title"><i class="fas fa-list-ul"></i> حلقات الدرس (${lesson.episodes.length})</div>
-                                <div class="episodes-grid">
-                                    ${lesson.episodes.map(ep => `
-                                        <button class="episode-btn ${ep.type}" onclick="window.open('${ep.url}', '_blank')">
-                                            <i class="${ep.type === 'facebook' ? 'fab fa-facebook-f' : 'fab fa-instagram'}"></i>
-                                            ${ep.label}
-                                        </button>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        <div class="buttons-group">
-                            ${mainFacebook ? `<a href="${mainFacebook.url}" target="_blank" class="watch-btn facebook"><i class="fab fa-facebook-f"></i> فيسبوك</a>` : ''}
-                            ${mainInstagram ? `<a href="${mainInstagram.url}" target="_blank" class="watch-btn instagram"><i class="fab fa-instagram"></i> إنستغرام</a>` : ''}
-                        </div>
-                    </div>
+window.openLesson = function(title, desc, url, type, subjectName) {
+    const modal = document.getElementById('articleModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    
+    modalTitle.innerText = title;
+    modalBody.innerHTML = `
+        <div class="verification-badge">
+            <i class="fas fa-check-circle"></i> درس مصور · كناشتي · ${subjectName}
+        </div>
+        <h1>${title}</h1>
+        <div class="article-info">
+            <span><i class="fab ${type === 'facebook' ? 'fa-facebook-f' : 'fa-instagram'}"></i> المصدر: ${type === 'facebook' ? 'فيسبوك' : 'إنستغرام'}</span>
+            <span><i class="fas fa-graduation-cap"></i> المادة: ${subjectName}</span>
+            <span><i class="fas fa-ghost"></i> كناشتي</span>
+        </div>
+        <div class="summary-content">
+            <p>${desc}</p>
+            <p style="margin-top: 1rem;">📺 اضغط على زر المشاهدة أدناه للانتقال إلى الفيديو التعليمي:</p>
+            <div style="text-align: center; margin: 1rem 0;">
+                <a href="${url}" target="_blank" class="video-btn">
+                    <i class="${type === 'facebook' ? 'fab fa-facebook-f' : 'fab fa-instagram'}"></i>
+                    مشاهدة على ${type === 'facebook' ? 'فيسبوك' : 'إنستغرام'}
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+            <p style="font-size: 0.8rem; color: #94a3b8;">✓ يمكنك مشاهدة الفيديو مباشرة بالضغط على الزر أعلاه</p>
+            <p style="font-size: 0.8rem; color: #94a3b8;">✓ هذا الدرس من إعداد أساتذة متميزين لمساعدتك في مراجعة الباكالوريا</p>
+        </div>
+        <div style="text-align:center; margin-top:1rem; padding-top:0.8rem; font-size:0.65rem; color:#3b82f6; border-top:1px solid rgba(59,130,246,0.2);">
+            ✓ كناشتي · منصة تعليمية متكاملة
+        </div>
+    `;
+    modal.classList.add('open');
+};
+
+function closeModal() {
+    document.getElementById('articleModal').classList.remove('open');
+}
+
+// صفحة عن الموقع
+document.querySelectorAll('.sidebar-item[data-page]').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('.sidebar-item[data-subject]').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.sidebar-item[data-page]').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        currentSubject = "all";
+        const page = item.getAttribute('data-page');
+        
+        const resultsArea = document.getElementById('resultsArea');
+        if (page === 'about') {
+            resultsArea.innerHTML = `
+                <div class="state-container">
+                    <i class="fas fa-info-circle" style="font-size: 2rem; color: #3b82f6;"></i>
+                    <h3 style="margin-top: 0.5rem;">عن كناشتي</h3>
+                    <p>منصة تعليمية متكاملة تهدف إلى مساعدة طلاب الباكالوريا على تحقيق النجاح.</p>
+                    <p style="margin-top: 0.5rem;">✓ تضم المنصة دروساً في:</p>
+                    <p>- الرياضيات (المعادلات التفاضلية، التكامل، الدوال، المتتاليات...)</p>
+                    <p>- الفيزياء والكيمياء (قوانين نيوتن، السقوط العمودي، الكهرباء...)</p>
+                    <p>- علوم الحياة (ATP، الوراثة، المناعة...)</p>
+                    <p>- الجيولوجيا (الاندساس، التصادم، التحول...)</p>
+                    <p>- الفلسفة (مجزوءة السياسة، منهجية النص...)</p>
+                    <p>- الإنجليزية (القواعد، المفردات...)</p>
+                    <p style="margin-top: 1rem;">✓ جميع الدروس من إعداد أساتذة متميزين</p>
+                    <p>✓ تم التطوير بواسطة <strong>Kenachti Team</strong></p>
                 </div>
             `;
-        }).join('');
+        } else if (page === 'contact') {
+            resultsArea.innerHTML = `
+                <div class="state-container">
+                    <i class="fas fa-envelope" style="font-size: 2rem; color: #3b82f6;"></i>
+                    <h3 style="margin-top: 0.5rem;">اتصل بنا</h3>
+                    <p>للاستفسارات والاقتراحات:</p>
+                    <p style="direction: ltr; text-align: center;">📧 kenachti@gmail.com</p>
+                    <p style="margin-top: 0.5rem;"><i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i> Kenachti</p>
+                </div>
+            `;
+        }
+    });
+});
 
-        setTimeout(() => { document.querySelectorAll('.lesson-card').forEach(card => card.classList.add('show')); }, 50);
+// بحث
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+
+function performSearch() {
+    searchTerm = searchInput.value.trim();
+    renderResults();
+}
+
+searchBtn.onclick = performSearch;
+searchInput.onkeypress = (e) => { if (e.key === 'Enter') performSearch(); };
+
+// زر القائمة الجانبية للجوال
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebar = document.getElementById('sidebar');
+sidebarToggle.addEventListener('click', () => { sidebar.classList.toggle('open'); });
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+        sidebar.classList.remove('open');
     }
+});
 
-    function setupFilters() {
-        const btns = document.querySelectorAll(".filter-btn");
-        btns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                btns.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                currentFilter = btn.getAttribute("data-filter");
-                renderLessons();
-            });
-        });
-    }
+// إغلاق المودال
+document.getElementById('articleModal').onclick = (e) => { if (e.target === document.getElementById('articleModal')) closeModal(); };
 
-    function setupSearch() {
-        const searchBtn = document.getElementById("searchBtn");
-        const searchInput = document.getElementById("searchInput");
-        const performSearch = () => { currentSearchTerm = searchInput.value; renderLessons(); };
-        searchBtn.addEventListener("click", performSearch);
-        searchInput.addEventListener("keypress", (e) => { if(e.key === "Enter") performSearch(); });
-    }
-
-    function setupGoTop() {
-        const goTop = document.getElementById("goTopBtn");
-        window.addEventListener("scroll", () => { if(window.scrollY > 300) goTop.classList.add("show"); else goTop.classList.remove("show"); });
-        goTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-    }
-
-    renderLessons();
-    setupFilters();
-    setupSearch();
-    setupGoTop();
+// عرض النتائج الأولية
+renderResults();
 </script>
 </body>
 </html>
