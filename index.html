@@ -2,805 +2,186 @@
 <html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>كناشتي | الموسوعة التعليمية للباكالوريا</title>
-    <meta name="description" content="كناشتي - منصة تعليمية متكاملة لطلاب الباكالوريا تضم دروس الرياضيات والفيزياء وعلوم الحياة والفلسفة والإنجليزية">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>إرسال إلى تيلغرام</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0a0a0a 0%, #0d1117 50%, #0a0a0f 100%);
-            font-family: 'Cairo', sans-serif;
-            color: #f0f3f8;
-            overflow-x: hidden;
-        }
-        
-        html, body {
-            overflow-x: hidden !important;
-            max-width: 100% !important;
-            position: relative;
-        }
-        
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .bg-animation span {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: rgba(59, 130, 246, 0.05);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-        
-        .app-wrapper {
+            font-family: 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             display: flex;
-            position: relative;
-            z-index: 2;
-            min-height: 100vh;
-            overflow-x: hidden !important;
-            max-width: 100%;
-        }
-        
-        .sidebar {
-            width: 280px;
-            background: rgba(5, 8, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(59, 130, 246, 0.2);
-            padding: 2rem 0;
-            position: sticky;
-            top: 0;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            overflow-y: auto;
-            overflow-x: hidden;
-            transition: all 0.3s ease;
-            z-index: 10;
+            margin: 0;
         }
-        
-        .sidebar-toggle {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: linear-gradient(105deg, #2563eb, #1e40af);
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .sidebar-header {
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 450px;
             text-align: center;
-            padding: 0 1.5rem 1.5rem;
-            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        h1 {
+            color: #203a43;
+            margin-bottom: 0.5rem;
+        }
+        .sub {
+            color: #666;
+            font-size: 14px;
             margin-bottom: 1.5rem;
         }
-        .sidebar-header h3 { color: #3b82f6; font-size: 1.2rem; }
-        .sidebar-header p { font-size: 0.7rem; opacity: 0.7; margin-top: 5px; }
-        
-        .sidebar-section { margin-bottom: 1.5rem; }
-        .sidebar-section-title {
-            padding: 0.5rem 1.5rem;
-            color: #3b82f6;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-        .sidebar-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 1.5rem;
-            margin: 4px 8px;
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
-            color: #cbd5e1;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: 0.3s;
         }
-        .sidebar-item i { width: 24px; color: #3b82f6; }
-        .sidebar-item:hover { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
-        .sidebar-item.active { background: linear-gradient(105deg, #1e3a5f, #0f172a); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
-        .sidebar-item.active i { color: #3b82f6; }
-        
-        .main-content {
-            flex: 1;
-            padding: 2rem 2rem;
-            overflow-x: hidden !important;
-            max-width: 100%;
-        }
-        
-        .hero-section { text-align: center; margin-bottom: 2rem; overflow-x: hidden; }
-        .hero-section h1 { 
-            font-size: 2.5rem; 
-            font-weight: 800; 
-            background: linear-gradient(135deg, #60a5fa, #3b82f6, #1e40af); 
-            background-clip: text; 
-            -webkit-background-clip: text; 
-            color: transparent; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .hero-section h1 i { color: #3b82f6; font-size: 2rem; background: none; }
-        .glow-text { font-size: 0.85rem; opacity: 0.8; margin-top: 5px; display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .badge-msd { background: rgba(59, 130, 246, 0.15); padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; }
-        
-        .trending-badge {
-            background: linear-gradient(105deg, #2563eb, #1e40af);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.6rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .source-bar {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .source-btn {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 8px 20px;
-            border-radius: 50px;
-            color: #3b82f6;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .source-btn.active {
-            background: linear-gradient(105deg, #2563eb, #1e40af);
-            color: white;
-            border-color: transparent;
-        }
-        
-        .search-section { transition: all 0.3s ease; overflow-x: hidden; }
-        .search-section.hidden { display: none; }
-        
-        .search-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border-radius: 70px;
-            padding: 5px 5px 5px 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 2rem;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            flex-wrap: wrap;
-        }
-        .search-card input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 14px 5px;
-            font-size: 1rem;
-            font-family: 'Cairo', sans-serif;
-            color: white;
+        input:focus, textarea:focus {
+            border-color: #0088cc;
             outline: none;
-            min-width: 150px;
         }
-        .search-card input::placeholder { color: rgba(255, 255, 255, 0.5); }
-        .search-card button {
-            background: linear-gradient(105deg, #2563eb, #1e40af);
-            border: none;
-            padding: 10px 28px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 0.9rem;
+        button {
+            background: #0088cc;
             color: white;
-            cursor: pointer;
-        }
-        
-        .back-to-search {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 8px 20px;
-            border-radius: 40px;
-            color: #3b82f6;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 1rem;
-            transition: all 0.2s;
-        }
-        .back-to-search:hover { background: rgba(59, 130, 246, 0.3); }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        .result-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 1.2rem;
-            transition: all 0.3s;
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            cursor: pointer;
-            position: relative;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        .result-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
-        .result-title { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .result-title h3 { font-size: 1.1rem; font-weight: 700; color: #60a5fa; word-break: break-word; }
-        .result-title i { color: #3b82f6; }
-        .result-desc { color: #9ca3af; font-size: 0.8rem; line-height: 1.5; margin-bottom: 8px; word-break: break-word; }
-        .result-meta { margin-top: 10px; display: flex; gap: 12px; font-size: 0.65rem; flex-wrap: wrap; align-items: center; }
-        
-        .article-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(2, 5, 10, 0.97);
-            backdrop-filter: blur(25px);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-        .article-modal.open { opacity: 1; visibility: visible; }
-        
-        .modal-content {
-            background: rgba(10, 15, 25, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 40px;
-            width: 100%;
-            max-width: 850px;
-            max-height: 85vh;
-            overflow-y: auto;
-            overflow-x: hidden !important;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-        
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-track { background: #0f172a; border-radius: 10px; }
-        .modal-content::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            background: rgba(5, 10, 20, 0.9);
-            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 5;
-        }
-        .close-modal {
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: #3b82f6;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        
-        .article-body {
-            padding: 1.5rem;
-            color: #cbd5e1;
-            line-height: 1.8;
-            direction: rtl;
-            font-size: 0.95rem;
-            overflow-x: hidden !important;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
-        .article-body p { margin-bottom: 1rem; text-align: justify; word-wrap: break-word; overflow-wrap: break-word; }
-        .article-body h1 { font-size: 1.4rem; color: #60a5fa; margin-bottom: 1rem; word-break: break-word; }
-        .article-body h2, .article-body h3, .article-body h4 { word-break: break-word; margin-top: 1rem; margin-bottom: 0.5rem; color: #60a5fa; }
-        
-        .article-info {
-            display: flex;
-            gap: 15px;
-            margin: 0.5rem 0 1rem;
-            padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            font-size: 0.7rem;
-            color: #94a3b8;
-            flex-wrap: wrap;
-        }
-        .article-info span { display: inline-flex; align-items: center; gap: 6px; }
-        
-        .verification-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(59, 130, 246, 0.12);
-            padding: 4px 12px;
+            border: none;
+            padding: 12px 25px;
+            font-size: 18px;
             border-radius: 30px;
-            font-size: 0.7rem;
-            margin-bottom: 1rem;
-            color: #3b82f6;
-            flex-wrap: wrap;
-        }
-        
-        .show-more-btn {
-            background: linear-gradient(105deg, #2563eb, #1e40af);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: white;
             cursor: pointer;
-            margin: 0.5rem 0;
+            transition: 0.3s;
+            width: 100%;
+            font-weight: bold;
         }
-        
-        .full-content {
+        button:hover {
+            background: #006699;
+            transform: scale(1.02);
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 12px;
             display: none;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(59, 130, 246, 0.2);
-            overflow-x: hidden !important;
-            word-wrap: break-word;
+            font-size: 14px;
         }
-        .full-content.visible { display: block; }
-        
-        .state-container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border-radius: 40px;
-            padding: 2rem;
-            text-align: center;
-            word-wrap: break-word;
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
         }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(59, 130, 246, 0.2);
-            border-top: 3px solid #3b82f6;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 1rem auto;
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        
-        .video-btn {
-            background: linear-gradient(105deg, #2563eb, #1e40af);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: white;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
         }
-        .video-btn:hover { transform: translateY(-2px); }
-        
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                right: -280px;
-                width: 260px;
-                z-index: 200;
-                transition: right 0.3s ease;
-                height: 100vh;
-            }
-            .sidebar.open { right: 0; }
-            .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
-            .main-content { padding: 1rem; }
-            .hero-section h1 { font-size: 1.8rem; }
-            .search-card { border-radius: 30px; }
-            .search-card button { padding: 8px 18px; }
-            .modal-content { max-width: 95%; }
-            .article-body { padding: 1rem; }
-            .results-grid { grid-template-columns: 1fr; }
+        hr {
+            margin: 20px 0;
         }
-        
-        footer { text-align: center; margin-top: 2rem; padding-top: 1rem; font-size: 0.7rem; opacity: 0.6; border-top: 1px solid rgba(59,130,246,0.1); }
-        .badge { background: rgba(59,130,246,0.15); padding: 2px 8px; border-radius: 20px; font-size: 0.6rem; }
-        
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
-        
-        .lesson-category { margin-top: 1.5rem; margin-bottom: 1rem; }
-        .lesson-category h3 { color: #3b82f6; font-size: 1.2rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+        .note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
-<div class="bg-animation" id="bgAnimation"></div>
 
-<button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+<div class="container">
+    <h1>📨 أرسل رسالة لبوتك</h1>
+    <div class="sub">سيتم إرسال النص مباشرة إلى تيلغرام</div>
 
-<div class="app-wrapper">
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3><i class="fas fa-graduation-cap"></i> كناشتي</h3>
-            <p>موسوعة الباكالوريا · Kenachti</p>
-        </div>
-        <div class="sidebar-section">
-            <div class="sidebar-section-title"><i class="fas fa-folder"></i> المواد الدراسية</div>
-            <div class="sidebar-item active" data-subject="all">
-                <i class="fas fa-th-large"></i> <span>الجميع</span>
-            </div>
-            <div class="sidebar-item" data-subject="math">
-                <i class="fas fa-calculator"></i> <span>الرياضيات</span>
-            </div>
-            <div class="sidebar-item" data-subject="physique">
-                <i class="fas fa-atom"></i> <span>الفيزياء والكيمياء</span>
-            </div>
-            <div class="sidebar-item" data-subject="svt">
-                <i class="fas fa-dna"></i> <span>علوم الحياة</span>
-            </div>
-            <div class="sidebar-item" data-subject="geologie">
-                <i class="fas fa-mountain"></i> <span>الجيولوجيا</span>
-            </div>
-            <div class="sidebar-item" data-subject="philo">
-                <i class="fas fa-brain"></i> <span>الفلسفة</span>
-            </div>
-            <div class="sidebar-item" data-subject="english">
-                <i class="fas fa-language"></i> <span>الإنجليزية</span>
-            </div>
-        </div>
-        <div class="sidebar-section">
-            <div class="sidebar-section-title"><i class="fas fa-cog"></i> معلومات</div>
-            <div class="sidebar-item" data-page="about">
-                <i class="fas fa-info-circle"></i> <span>عن الموقع</span>
-            </div>
-            <div class="sidebar-item" data-page="contact">
-                <i class="fas fa-envelope"></i> <span>اتصل بنا</span>
-            </div>
-        </div>
-        <div class="sidebar-section">
-            <div class="sidebar-section-title"><i class="fas fa-chart-line"></i> إحصائيات</div>
-            <div class="sidebar-item" style="cursor: default;">
-                <i class="fas fa-book"></i> <span><span id="lessonsCount">0</span> درس</span>
-            </div>
-            <div class="sidebar-item" style="cursor: default;">
-                <i class="fas fa-chalkboard-user"></i> <span>15+ أستاذ</span>
-            </div>
-            <div class="sidebar-item" style="cursor: default;">
-                <i class="fas fa-video"></i> <span>100+ فيديو</span>
-            </div>
-        </div>
-        <div class="sidebar-section">
-            <div class="sidebar-section-title"><i class="fas fa-bell"></i> تنبيه</div>
-            <div class="sidebar-item" style="cursor: default; font-size: 0.7rem;">
-                <i class="fas fa-info-circle"></i> <span>بعض البثوث على Instagram غير دائمة</span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="main-content">
-        <div class="hero-section">
-            <h1><i class="fas fa-graduation-cap"></i> كناشتي</h1>
-            <div class="glow-text">
-                <span class="badge-msd"><i class="fas fa-check-circle"></i> دروس مصورة · شروحات مبسطة</span>
-                <span class="badge-msd"><i class="fas fa-bolt"></i> للمراجعة النهائية</span>
-                <span class="badge-msd"><i class="fas fa-fire"></i> الباكالوريا بكل سهولة</span>
-            </div>
-        </div>
-        
-        <div class="search-section" id="searchSection">
-            <div class="source-bar">
-                <button class="source-btn active" data-source="facebook"><i class="fab fa-facebook-f"></i> فيسبوك</button>
-                <button class="source-btn" data-source="instagram"><i class="fab fa-instagram"></i> إنستغرام</button>
-            </div>
-            <div class="search-card">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="ابحث عن درس... مثال: الدالة الأسية، قوانين نيوتن" autocomplete="off">
-                <button id="searchBtn"><i class="fas fa-arrow-left"></i> بحث</button>
-            </div>
-        </div>
-        
-        <div id="resultsArea">
-            <div class="state-container">
-                <i class="fas fa-crown" style="font-size: 2rem; color: #3b82f6;"></i>
-                <h3 style="margin-top: 0.5rem;">مرحباً بك في كناشتي</h3>
-                <p>✓ أكبر منصة تجمع دروس الباكالوريا</p>
-                <p style="font-size: 0.8rem;">✓ شروحات من أساتذة متميزين</p>
-                <p style="font-size: 0.7rem; margin-top: 0.5rem;"><i class="fas fa-fire"></i> اختر مادة من القائمة الجانبية أو ابحث في الأعلى</p>
-            </div>
-        </div>
-        
-        <footer>
-            <i class="fas fa-shield-alt"></i> كناشتي · جميع الدروس من إعداد أساتذة متميزين · Prof Fati | Adrdour | Prof Faress | Tahiri | Sara English | Prof Chargui
-        </footer>
-    </div>
-</div>
+    <form id="sendForm">
+        <input type="text" id="userMessage" placeholder="✏️ اكتب أي شيء هنا..." autocomplete="off">
+        <button type="submit">🚀 إرسال إلى البوت</button>
+    </form>
 
-<div id="articleModal" class="article-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2><span id="modalTitle">الدرس</span></h2>
-            <button class="close-modal" onclick="closeModal()"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="modalBody" class="article-body">
-            <div class="spinner"></div>
-            <p style="text-align: center;">جاري التحميل...</p>
-        </div>
+    <div id="status"></div>
+    <hr>
+    <div class="note">
+        ⚠️ للتجربة فقط | سيظهر التوكن في الكود (لا تشارك الملف مع أحد)
     </div>
 </div>
 
 <script>
-// جميع الدروس - كل درس كبطاقة مستقلة
-const lessons = [
-    // الرياضيات
-    { id: 1, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "المعادلات التفاضلية - الجزء 1", desc: "شرح سهل ورائع لدرس المعادلات التفاضلية مع أمثلة تطبيقية", url: "https://www.facebook.com/reel/1476337393857691/", type: "facebook", trending: true },
-    { id: 2, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "المعادلات التفاضلية - الجزء 2", desc: "تكملة شرح المعادلات التفاضلية - تمارين تطبيقية", url: "https://www.facebook.com/reel/1628974374663763/", type: "facebook", trending: false },
-    { id: 3, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "حساب التكامل - الجزء 1", desc: "شرح كامل ومفصل لحساب التكامل مع تمارين", url: "https://www.facebook.com/reel/2029085788024304/", type: "facebook", trending: true },
-    { id: 4, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "حساب التكامل - الجزء 2", desc: "تكملة شرح حساب التكامل - طرق سهلة للحفظ", url: "https://www.facebook.com/reel/34249756198004159/", type: "facebook", trending: false },
-    { id: 5, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "الدالة الأسية - الجزء 1", desc: "شرح رائع للدالة الأسية مع دراسة الدوال", url: "https://www.facebook.com/reel/1211471321113960/", type: "facebook", trending: true },
-    { id: 6, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "الدالة الأسية - الجزء 2", desc: "تكملة شرح الدالة الأسية - طرق الحل", url: "https://www.facebook.com/reel/1608805623655815/", type: "facebook", trending: false },
-    { id: 7, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "الأعداد العقدية - الجزء 1", desc: "شرح ناصع للأعداد العقدية - العمليات الأساسية", url: "https://www.facebook.com/reel/1930067827572718/", type: "facebook", trending: false },
-    { id: 8, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "المتتاليات العددية - الحصة 1", desc: "الدرس الكامل للمتتاليات العددية - المفاهيم الأساسية", url: "https://www.facebook.com/share/v/1A9PuQ4W7K/", type: "facebook", trending: false },
-    { id: 9, subject: "math", subjectName: "الرياضيات", icon: "fa-calculator", title: "النهايات - الحصة 1", desc: "درس النهايات - المفاهيم الأساسية والقواعد", url: "https://www.facebook.com/share/v/1CVR6zJZqS/", type: "facebook", trending: false },
+    // ============================================================
+    // 🔻🔻🔻 ضع التوكن و ID الخاصين بك هنا 🔻🔻🔻
+    // ============================================================
     
-    // الفيزياء
-    { id: 10, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "قوانين نيوتن - شرح القوانين", desc: "شرح كامل لقوانين نيوتن مع أمثلة تطبيقية", url: "https://www.facebook.com/share/v/1KQXGNNmn4/", type: "facebook", trending: true },
-    { id: 11, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "السقوط العمودي - شرح", desc: "شرح درس السقوط العمودي في الميكانيك", url: "https://www.facebook.com/reel/2818003581884804/", type: "facebook", trending: false },
-    { id: 12, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "حركة الكواكب والأقمار", desc: "شرح مبسط لحركة الكواكب والأقمار الصناعية", url: "https://www.facebook.com/reel/1582442422847823/", type: "facebook", trending: false },
-    { id: 13, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "ثنائي القطب RL - درس كامل", desc: "شرح ثنائي القطب RL مع تمارين وطنية", url: "https://www.facebook.com/reel/1836519480517774/", type: "facebook", trending: false },
-    { id: 14, subject: "physique", subjectName: "الفيزياء والكيمياء", icon: "fa-atom", title: "قوانين نيوتن - شرح Instagram", desc: "شرح قوانين نيوتن - Prof Laksabi", url: "https://www.instagram.com/reel/DVXHRYyAsyD/", type: "instagram", trending: false },
+    const BOT_TOKEN = "8920328815:AAEOP0sR3Jc98i0osmfnh9t21m3WGusW2FA"
+    const CHAT_ID   = "8416078700"
     
-    // علوم الحياة
-    { id: 15, subject: "svt", subjectName: "علوم الحياة", icon: "fa-dna", title: "ATP - شرح كامل", desc: "شرح تركيب ATP ودوره في الخلية", url: "https://www.facebook.com/share/v/1YzwbBy12Z/", type: "facebook", trending: true },
-    { id: 16, subject: "svt", subjectName: "علوم الحياة", icon: "fa-dna", title: "المقلة العضلية (Muscle)", desc: "شرح تركيب المقلة العضلية وآلية الانقباض", url: "https://www.facebook.com/share/v/18FUhhRWa9/", type: "facebook", trending: false },
-    { id: 17, subject: "svt", subjectName: "علوم الحياة", icon: "fa-dna", title: "القوانين الإحصائية للوراثة", desc: "شرح قوانين مندل - Monohybridisme", url: "https://www.facebook.com/share/v/1Hxp5QEAFU/", type: "facebook", trending: true },
-    
-    // الجيولوجيا - كل جزء منفصل
-    { id: 18, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "الاندساس (Subduction) - الجزء 1", desc: "شرح ظاهرة الاندساس في الجيولوجيا - الآليات والنتائج", url: "https://www.facebook.com/reel/1241067014866539/", type: "facebook", trending: false },
-    { id: 19, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "التصادم (Collision) - الجزء 2", desc: "شرح ظاهرة التصادم بين الصفائح التكتونية", url: "https://www.facebook.com/reel/1241067014866539/", type: "facebook", trending: false },
-    { id: 20, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "التحول (Métamorphisme) - الجزء 3", desc: "شرح ظاهرة التحول في الصخور", url: "https://www.facebook.com/reel/1241067014866539/", type: "facebook", trending: false },
-    { id: 21, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "ملخص الجيولوجيا كاملاً", desc: "ملخص شامل لجميع دروس الجيولوجيا", url: "https://www.facebook.com/share/p/1C6VtgQ8QU/", type: "facebook", trending: true },
-    { id: 22, subject: "geologie", subjectName: "الجيولوجيا", icon: "fa-mountain", title: "الجيولوجيا - شرح كامل Instagram", desc: "شرح جميع دروس الجيولوجيا مع Prof Faress", url: "https://www.instagram.com/tv/CsFa3WxovcU/", type: "instagram", trending: false },
-    
-    // الفلسفة
-    { id: 23, subject: "philo", subjectName: "الفلسفة", icon: "fa-brain", title: "مجزوءة السياسة - مفهوم الدولة", desc: "شرح مفهوم الدولة ومشروعيتها وغاياتها", url: "https://www.facebook.com/reel/1427129562444643/", type: "facebook", trending: true },
-    { id: 24, subject: "philo", subjectName: "الفلسفة", icon: "fa-brain", title: "منهجية النص الفلسفي", desc: "طريقة كتابة المقدمة والتحليل والمناقشة", url: "https://www.facebook.com/share/v/1BcEJXTNh4/", type: "facebook", trending: false },
-    { id: 25, subject: "philo", subjectName: "الفلسفة", icon: "fa-brain", title: "مجزوءة السياسة - شرح Instagram", desc: "شرح كامل لمجزوءة السياسة", url: "https://www.instagram.com/reel/DV_C2SFjUY-/", type: "instagram", trending: false },
-    
-    // الإنجليزية
-    { id: 26, subject: "english", subjectName: "الإنجليزية", icon: "fa-language", title: "قواعد اللغة الإنجليزية", desc: "جميع قواعد اللغة الإنجليزية في شرح واحد", url: "https://www.facebook.com/share/v/1DZTf1mn6c/", type: "facebook", trending: true },
-    { id: 27, subject: "english", subjectName: "الإنجليزية", icon: "fa-language", title: "المبني للمجهول - Passive Voice", desc: "شرح قاعدة المبني للمجهول في الإنجليزية", url: "https://www.facebook.com/reel/1967350620822152/", type: "facebook", trending: false },
-    { id: 28, subject: "english", subjectName: "الإنجليزية", icon: "fa-language", title: "الوحدة الأولى - Gifts of Youth", desc: "مفردات وتمارين الوحدة الأولى", url: "https://www.facebook.com/reel/1784062965618065/", type: "facebook", trending: false }
-];
+    // ============================================================
+    // لا تغير أي شيء بعد هذا السطر
+    // ============================================================
 
-// تحديث عدد الدروس
-document.getElementById("lessonsCount").innerText = lessons.length;
+    const form = document.getElementById('sendForm');
+    const messageInput = document.getElementById('userMessage');
+    const statusDiv = document.getElementById('status');
 
-let currentSubject = "all";
-let currentPlatform = "all";
-let searchTerm = "";
-
-// خلفية ديناميكية
-for (let i = 0; i < 50; i++) {
-    let span = document.createElement('span');
-    let size = Math.random() * 30 + 5;
-    span.style.width = size + 'px';
-    span.style.height = size + 'px';
-    span.style.left = Math.random() * 100 + '%';
-    span.style.animationDuration = Math.random() * 20 + 10 + 's';
-    span.style.animationDelay = Math.random() * 10 + 's';
-    document.getElementById('bgAnimation').appendChild(span);
-}
-
-// منصة المشاهدة
-document.querySelectorAll('.source-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentPlatform = btn.getAttribute('data-source');
-        renderResults();
-    });
-});
-
-// مواد القائمة الجانبية
-document.querySelectorAll('.sidebar-item[data-subject]').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.sidebar-item[data-subject]').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        currentSubject = item.getAttribute('data-subject');
-        searchTerm = "";
-        document.getElementById('searchInput').value = "";
-        renderResults();
-    });
-});
-
-function renderResults() {
-    let filtered = lessons.filter(lesson => {
-        if (currentSubject !== "all" && lesson.subject !== currentSubject) return false;
-        if (currentPlatform !== "all" && lesson.type !== currentPlatform) return false;
-        if (searchTerm) {
-            return lesson.title.includes(searchTerm) || lesson.desc.includes(searchTerm);
-        }
-        return true;
-    });
-    
-    const resultsArea = document.getElementById('resultsArea');
-    if (filtered.length === 0) {
-        resultsArea.innerHTML = `<div class="state-container">
-            <i class="fas fa-search" style="font-size: 2rem; color: #3b82f6;"></i>
-            <h3 style="margin-top: 0.5rem;">لا توجد نتائج</h3>
-            <p>لم نجد دروساً تطابق بحثك</p>
-        </div>`;
-        return;
-    }
-    
-    let html = `<div style="margin-bottom: 0.8rem;"><i class="fas fa-chart-line"></i> ${filtered.length} درس</div><div class="results-grid">`;
-    filtered.forEach(lesson => {
-        html += `
-            <div class="result-card" onclick='openLesson("${lesson.title.replace(/'/g, "\\'")}", "${lesson.desc.replace(/'/g, "\\'")}", "${lesson.url}", "${lesson.type}", "${lesson.subjectName}")'>
-                <div class="result-title">
-                    <i class="fas ${lesson.icon}"></i>
-                    <h3>${lesson.title}</h3>
-                    ${lesson.trending ? '<span class="trending-badge"><i class="fas fa-fire"></i> رائج</span>' : ''}
-                </div>
-                <div class="result-desc"><i class="fas fa-quote-right"></i> ${lesson.desc}...</div>
-                <div class="result-meta">
-                    <span><i class="fab ${lesson.type === 'facebook' ? 'fa-facebook-f' : 'fa-instagram'}"></i> ${lesson.type === 'facebook' ? 'فيسبوك' : 'إنستغرام'}</span>
-                    <span><i class="fas fa-graduation-cap"></i> ${lesson.subjectName}</span>
-                    <span class="badge"><i class="fas fa-check-circle"></i> موثق</span>
-                </div>
-            </div>
-        `;
-    });
-    html += `</div>`;
-    resultsArea.innerHTML = html;
-}
-
-window.openLesson = function(title, desc, url, type, subjectName) {
-    const modal = document.getElementById('articleModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    
-    modalTitle.innerText = title;
-    modalBody.innerHTML = `
-        <div class="verification-badge">
-            <i class="fas fa-check-circle"></i> درس مصور · كناشتي · ${subjectName}
-        </div>
-        <h1>${title}</h1>
-        <div class="article-info">
-            <span><i class="fab ${type === 'facebook' ? 'fa-facebook-f' : 'fa-instagram'}"></i> المصدر: ${type === 'facebook' ? 'فيسبوك' : 'إنستغرام'}</span>
-            <span><i class="fas fa-graduation-cap"></i> المادة: ${subjectName}</span>
-            <span><i class="fas fa-ghost"></i> كناشتي</span>
-        </div>
-        <div class="summary-content">
-            <p>${desc}</p>
-            <p style="margin-top: 1rem;">📺 اضغط على زر المشاهدة أدناه للانتقال إلى الفيديو التعليمي:</p>
-            <div style="text-align: center; margin: 1rem 0;">
-                <a href="${url}" target="_blank" class="video-btn">
-                    <i class="${type === 'facebook' ? 'fab fa-facebook-f' : 'fab fa-instagram'}"></i>
-                    مشاهدة على ${type === 'facebook' ? 'فيسبوك' : 'إنستغرام'}
-                    <i class="fas fa-external-link-alt"></i>
-                </a>
-            </div>
-            <p style="font-size: 0.8rem; color: #94a3b8;">✓ يمكنك مشاهدة الفيديو مباشرة بالضغط على الزر أعلاه</p>
-            <p style="font-size: 0.8rem; color: #94a3b8;">✓ هذا الدرس من إعداد أساتذة متميزين لمساعدتك في مراجعة الباكالوريا</p>
-        </div>
-        <div style="text-align:center; margin-top:1rem; padding-top:0.8rem; font-size:0.65rem; color:#3b82f6; border-top:1px solid rgba(59,130,246,0.2);">
-            ✓ كناشتي · منصة تعليمية متكاملة
-        </div>
-    `;
-    modal.classList.add('open');
-};
-
-function closeModal() {
-    document.getElementById('articleModal').classList.remove('open');
-}
-
-// صفحة عن الموقع
-document.querySelectorAll('.sidebar-item[data-page]').forEach(item => {
-    item.addEventListener('click', () => {
-        document.querySelectorAll('.sidebar-item[data-subject]').forEach(i => i.classList.remove('active'));
-        document.querySelectorAll('.sidebar-item[data-page]').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        currentSubject = "all";
-        const page = item.getAttribute('data-page');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        const resultsArea = document.getElementById('resultsArea');
-        if (page === 'about') {
-            resultsArea.innerHTML = `
-                <div class="state-container">
-                    <i class="fas fa-info-circle" style="font-size: 2rem; color: #3b82f6;"></i>
-                    <h3 style="margin-top: 0.5rem;">عن كناشتي</h3>
-                    <p>منصة تعليمية متكاملة تهدف إلى مساعدة طلاب الباكالوريا على تحقيق النجاح.</p>
-                    <p style="margin-top: 0.5rem;">✓ تضم المنصة دروساً في:</p>
-                    <p>- الرياضيات (المعادلات التفاضلية، التكامل، الدوال، المتتاليات...)</p>
-                    <p>- الفيزياء والكيمياء (قوانين نيوتن، السقوط العمودي، الكهرباء...)</p>
-                    <p>- علوم الحياة (ATP، الوراثة، المناعة...)</p>
-                    <p>- الجيولوجيا (الاندساس، التصادم، التحول...)</p>
-                    <p>- الفلسفة (مجزوءة السياسة، منهجية النص...)</p>
-                    <p>- الإنجليزية (القواعد، المفردات...)</p>
-                    <p style="margin-top: 1rem;">✓ جميع الدروس من إعداد أساتذة متميزين</p>
-                    <p>✓ تم التطوير بواسطة <strong>Kenachti Team</strong></p>
-                </div>
-            `;
-        } else if (page === 'contact') {
-            resultsArea.innerHTML = `
-                <div class="state-container">
-                    <i class="fas fa-envelope" style="font-size: 2rem; color: #3b82f6;"></i>
-                    <h3 style="margin-top: 0.5rem;">اتصل بنا</h3>
-                    <p>للاستفسارات والاقتراحات:</p>
-                    <p style="direction: ltr; text-align: center;">📧 kenachti@gmail.com</p>
-                    <p style="margin-top: 0.5rem;"><i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i> Kenachti</p>
-                </div>
-            `;
+        const text = messageInput.value.trim();
+        if (!text) {
+            showStatus("❌ الرجاء كتابة رسالة أولاً", "error");
+            return;
+        }
+
+        // التحقق من أن المستخدم وضع التوكن و ID
+        if (BOT_TOKEN === "ضع_توكن_البوت_هنا" || CHAT_ID === 8416078700) {
+            showStatus("8920328815:AAEOP0sR3Jc98i0osmfnh9t21m3WGusW2FA);
+            return;
+        }
+
+        showStatus("⏳ جاري الإرسال...", "info");
+
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const params = new URLSearchParams();
+        params.append('chat_id', CHAT_ID);
+        params.append('text', `📩 رسالة جديدة من الموقع:\n\n${text}`);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params
+            });
+
+            const result = await response.json();
+            
+            if (result.ok) {
+                showStatus("✅ تم الإرسال بنجاح إلى تيلغرام!", "success");
+                messageInput.value = '';
+            } else {
+                showStatus("❌ فشل الإرسال: " + (result.description || "خطأ غير معروف"), "error");
+            }
+        } catch (error) {
+            showStatus("❌ خطأ في الاتصال: " + error.message, "error");
         }
     });
-});
 
-// بحث
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-
-function performSearch() {
-    searchTerm = searchInput.value.trim();
-    renderResults();
-}
-
-searchBtn.onclick = performSearch;
-searchInput.onkeypress = (e) => { if (e.key === 'Enter') performSearch(); };
-
-// زر القائمة الجانبية للجوال
-const sidebarToggle = document.getElementById('sidebarToggle');
-const sidebar = document.getElementById('sidebar');
-sidebarToggle.addEventListener('click', () => { sidebar.classList.toggle('open'); });
-document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-        sidebar.classList.remove('open');
+    function showStatus(msg, type) {
+        statusDiv.style.display = "block";
+        statusDiv.textContent = msg;
+        statusDiv.className = type === "success" ? "success" : (type === "error" ? "error" : "info");
+        
+        if (type !== "info") {
+            setTimeout(() => {
+                statusDiv.style.display = "none";
+            }, 5000);
+        }
     }
-});
-
-// إغلاق المودال
-document.getElementById('articleModal').onclick = (e) => { if (e.target === document.getElementById('articleModal')) closeModal(); };
-
-// عرض النتائج الأولية
-renderResults();
 </script>
+
 </body>
 </html>
