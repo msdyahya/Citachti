@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>آخر منشورات القناة</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            color: #1e3c72;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+        
+        .post-container {
+            background: #f7f9fc;
+            border-radius: 15px;
+            padding: 25px;
+            min-height: 200px;
+            transition: all 0.3s ease;
+        }
+        
+        .post-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #2a5298;
+            font-size: 18px;
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-right: 4px solid #c62828;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-right: 4px solid #2e7d32;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .info {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 600px) {
+            .card {
+                padding: 20px;
+            }
+            .post-text {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>📢 آخر منشور في القناة</h1>
+        <div class="subtitle">آخر التحديثات من قناتنا</div>
+        
+        <div id="postContainer" class="post-container">
+            <div class="loading">جاري تحميل آخر منشور</div>
+        </div>
+        
+        <button onclick="fetchLastPost()">
+            🔄 تحديث
+        </button>
+        <div class="info">
+            يتم التحديث تلقائياً كل 30 ثانية
+        </div>
+    </div>
+
+    <script>
+        const BOT_TOKEN = '8901733084:AAH9icgp3Q7krjOomq0jiVU5VQh0zcPkY_g';
+        const CHAT_ID = '-1003712252984';
+        
+        async function fetchLastPost() {
+            const container = document.getElementById('postContainer');
+            container.innerHTML = '<div class="loading">جاري تحميل آخر منشور</div>';
+            
+            try {
+                // استخدام CORS proxy مجاني (لحل مشكلة CORS)
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const apiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?chat_id=${CHAT_ID}&limit=1`;
+                
+                const response = await fetch(proxyUrl + apiUrl, {
+                    headers: {
+                        'Origin': window.location.origin
+                    }
+                });
+                
+                if (!response.ok) throw new Error('فشل الاتصال بالخادم');
+                
+                const data = await response.json();
+                
+                if (data.ok && data.result && data.result.length > 0) {
+                    const lastPost = data.result[data.result.length - 1];
+                    let messageText = 'لا يوجد نص في آخر منشور';
+                    
+                    if (lastPost.channel_post) {
+                        messageText = lastPost.channel_post.text || 
+                                     lastPost.channel_post.caption || 
+                                     '📹 منشور وسائط متعددة';
+                    }
+                    
+                    container.innerHTML = `
+                        <div class="post-text">
+                            ${escapeHtml(messageText)}
+                        </div>
+                        <div class="success" style="margin-top: 15px;">
+                            ✅ تم التحديث بنجاح
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = '<div class="error">❌ لم يتم العثور على منشورات في القناة</div>';
+                }
+            } catch (error) {
+                console.error('خطأ:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        ⚠️ حدث خطأ في جلب البيانات<br>
+                        <small>يرجى المحاولة مرة أخرى لاحقاً</small>
+                    </div>
+                `;
+            }
+        }
+        
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+        }
+        
+        // تحميل عند فتح الصفحة
+        fetchLastPost();
+        
+        // تحديث تلقائي كل 30 ثانية
+        setInterval(fetchLastPost, 30000);
+    </script>
+</body>
+</html>
